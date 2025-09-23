@@ -12,6 +12,8 @@ class DashboardUserScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
       children: [
+        Text('Bienvenido de nuevo, Oswaldo!',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary)),
         Text(
           'Signos vitales',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
