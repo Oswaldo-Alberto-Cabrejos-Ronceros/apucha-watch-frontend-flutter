@@ -1,5 +1,5 @@
 import 'package:apucha_watch_movil/core/theme/app_theme.dart';
-import 'package:apucha_watch_movil/features/auth/presentation/screens/login_screen.dart';
+import 'package:apucha_watch_movil/screens/home_user/home_user_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Apucha Watch',
       debugShowCheckedModeBanner: false,
       theme: AppTheme().themeData(),
-      home: LoginScreen(),
+      home: HomeUserScreen(),
     );
   }
 }
