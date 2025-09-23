@@ -1,3 +1,4 @@
+import 'package:apucha_watch_movil/screens/dashboard_user/widgets/location_card.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/metric_card.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ class DashboardUserScreen extends StatelessWidget {
           MetricCard(value: '120/80', label: 'mmHg', title: 'Presión arterial', color: Colors.blue),
         ],
       ),
+      LocationCard(location: 'Av. Siempre Viva 123, Springfield',ago: 'Hace 2 minutos',),
       ],
     );
   }
