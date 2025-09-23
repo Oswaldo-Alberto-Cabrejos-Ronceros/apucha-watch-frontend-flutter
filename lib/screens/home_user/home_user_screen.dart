@@ -24,7 +24,7 @@ class _HomeUserScreenState extends State<HomeUserScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: _screens[_selectedIndex],
+          child: SingleChildScrollView(child: _screens[_selectedIndex]),
         ),
       ),
       bottomNavigationBar: NavigationBar(

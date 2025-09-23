@@ -5,6 +5,12 @@ class AlertsUserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Alerts User Screen'));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8,
+      children: [Text('Historial de alertas')
+      
+      ],
+    );
   }
 }
