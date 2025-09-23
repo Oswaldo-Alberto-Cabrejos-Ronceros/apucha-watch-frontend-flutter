@@ -1,5 +1,6 @@
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/location_card.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/metric_card.dart';
+import 'package:apucha_watch_movil/screens/dashboard_user/widgets/senior_citizen_principal_card.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/status_device_card.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +13,15 @@ class DashboardUserScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
       children: [
-        Text('Bienvenido de nuevo, Oswaldo!',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary)),
+        Text(
+          'Bienvenido de nuevo, Oswaldo!',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        SeniorCitizenPrincipalCard(),
         Text(
           'Signos vitales',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
