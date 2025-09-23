@@ -1,5 +1,6 @@
 import 'package:apucha_watch_movil/screens/alerts_user/alerts_user_screen.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/dashboard_user_screen.dart';
+import 'package:apucha_watch_movil/screens/health_conditions_user/health_conditions_user_screen.dart';
 import 'package:apucha_watch_movil/screens/perfil_user/perfil_user_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class _HomeUserScreenState extends State<HomeUserScreen> {
   int _selectedIndex = 0;
   final List<Widget> _screens = [
     DashboardUserScreen(),
+    HealthConditionsUserScreen(),
     AlertsUserScreen(),
     PerfilUserScreen(),
   ];
@@ -36,6 +38,8 @@ class _HomeUserScreenState extends State<HomeUserScreen> {
         },
         destinations: [
           NavigationDestination(icon: Icon(Icons.home), label: 'Inicio'),
+          NavigationDestination(
+              icon: Icon(Icons.health_and_safety), label: 'Salud'),
           NavigationDestination(
             icon: Icon(Icons.notifications),
             label: 'Alertas',
