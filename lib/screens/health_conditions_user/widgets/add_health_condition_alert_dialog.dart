@@ -55,14 +55,12 @@ class _AddHealthConditionAlertDialogState
                 firstDate: DateTime(1900),
                 lastDate: DateTime.now(),
               );
-              if (pickedDate != null) {
-                setState(() {
-                  diagnosisDate = pickedDate;
-                  _dateController.text =
-                      "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                });
-              }
-            },
+              setState(() {
+                diagnosisDate = pickedDate;
+                _dateController.text =
+                    "${pickedDate?.day}/${pickedDate?.month}/${pickedDate?.year}";
+              });
+                        },
           ),
           DropdownButtonFormField<String>(
             decoration: InputDecoration(labelText: 'Severidad'),

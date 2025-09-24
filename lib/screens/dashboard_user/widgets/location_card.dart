@@ -1,3 +1,4 @@
+import 'package:apucha_watch_movil/screens/dashboard_user/widgets/current_location_map_alert_dialog.dart';
 import 'package:flutter/material.dart';
 
 class LocationCard extends StatelessWidget {
@@ -33,7 +34,12 @@ class LocationCard extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.tonal(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => CurrentLocationMapAlertDialog(),
+                    );
+                  },
                   child: Text('Ver en mapa'),
                 ),
               ),
