@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#for variables env
+.env
+ios/Config/Debug.xcconfig
+ios/Config/Release.xcconfig
