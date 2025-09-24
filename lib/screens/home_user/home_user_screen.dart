@@ -23,9 +23,17 @@ class _HomeUserScreenState extends State<HomeUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Apucha Watch',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
           child: SingleChildScrollView(child: _screens[_selectedIndex]),
         ),
       ),
@@ -39,7 +47,9 @@ class _HomeUserScreenState extends State<HomeUserScreen> {
         destinations: [
           NavigationDestination(icon: Icon(Icons.home), label: 'Inicio'),
           NavigationDestination(
-              icon: Icon(Icons.health_and_safety), label: 'Salud'),
+            icon: Icon(Icons.health_and_safety),
+            label: 'Salud',
+          ),
           NavigationDestination(
             icon: Icon(Icons.notifications),
             label: 'Alertas',
