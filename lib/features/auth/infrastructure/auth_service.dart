@@ -13,7 +13,7 @@ class AuthService{
           "password": password
         }
       );
-      if(response.status ==200){
+      if(response.statusCode ==200){
         final authResponse = AuthResponse.fromJson(response.data);
       }
     } on DioException catch (e){
@@ -21,5 +21,20 @@ class AuthService{
     }
     return null;
   }
-  
+
+  //for register
+  Future<bool> register(registerRequest: RegisterRequest) async {
+    try{
+      final response = await apiClient.post('auth/register', data: registerRequest.toJson());
+      return reponse.statusCode == 201;
+    } on DioException catch (e){
+      print("Error en register: ${e.response?.data ?? e.message}");
+      return false;
+    }
+  }
+
+  Future<void> logout ()async{
+    apiClient.clearToken();
+  }
+
 }
