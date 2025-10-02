@@ -96,7 +96,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: const TextStyle(color: Colors.red),
                   ),
 
-                FilledButton(onPressed: () {}, child: Text('Iniciar sesión')),
+                FilledButton(
+                  onPressed: _loading ? null : _login,
+                  child: Text('Iniciar sesión'),
+                ),
                 Center(child: Text('¿No tienes una cuenta?')),
                 TextButton(
                   onPressed: () {
