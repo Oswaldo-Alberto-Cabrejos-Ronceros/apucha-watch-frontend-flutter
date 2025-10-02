@@ -89,6 +89,7 @@ class SeniorCitizenProfileService {
     } on DioException catch (e) {
       // ignore: avoid_print
       print("Error en login ${e.response?.data ?? e.message}");
+      throw Exception("Error en petición: ${e.response?.data ?? e.message}");
     }
   }
 
@@ -99,6 +100,7 @@ class SeniorCitizenProfileService {
     } on DioException catch (e) {
       // ignore: avoid_print
       print("Error en login ${e.response?.data ?? e.message}");
+      throw Exception("Error en petición: ${e.response?.data ?? e.message}");
     }
   }
 }
