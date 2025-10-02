@@ -58,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             FilledButton(onPressed: (){}, child: Text('Registrarse')),
             Center(child: Text('¿Ya tienes una cuenta?')),
             TextButton(onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+              Navigator.pushNamed(context, '/login');
             }, child: Text('Iniciar sesión'))
           ],
 
