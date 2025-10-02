@@ -1,5 +1,4 @@
 import 'package:apucha_watch_movil/features/auth/infrastructure/auth_service.dart';
-import 'package:apucha_watch_movil/features/auth/presentation/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -103,10 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Center(child: Text('¿No tienes una cuenta?')),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterScreen()),
-                    );
+                    Navigator.pushNamed(context, '/navigator');
                   },
                   child: Text('Regístrate'),
                 ),

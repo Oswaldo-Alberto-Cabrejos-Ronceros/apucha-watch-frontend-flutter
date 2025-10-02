@@ -1,14 +1,60 @@
-import 'package:apucha_watch_movil/features/auth/presentation/screens/login_screen.dart';
+import 'package:apucha_watch_movil/features/auth/domain/models/register_request.dart';
+import 'package:apucha_watch_movil/features/auth/infrastructure/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  final AuthService authService;
+  const RegisterScreen({super.key, required this.authService});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  //controllers
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _lastnameController = TextEditingController();
+  //error message
+  String? _errorMessague;
+  //loading
+  bool _loading = false;
+
+  //metodo que inicia sesion
+  Future<void> _register() async{
+        setState(() {
+      _loading = true;
+      _errorMessague = null;
+    });
+    try{
+      //construimos un RegisterRequest
+      final registerRequest = RegisterRequest(email: _emailController.text,
+       password: _passwordController.text, name: _nameController.text, 
+       lastname: _lastnameController.text);
+
+       final result = await widget.authService.register(registerRequest);
+       if(result){
+             //if exist
+        if (!mounted) return;
+        //por mientras despues poner pagina de espera de confimacion de correo
+        Navigator.pushReplacementNamed(context, "/home");
+       } else{
+               setState(() {
+          _errorMessague = 'Error al registar usuario';
+        });
+       }
+    } catch (e){
+            setState(() {
+        _errorMessague = 'Error inesperado $e';
+      });
+    } finally{
+            setState(() {
+        _loading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Center(
