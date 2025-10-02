@@ -1,40 +1,47 @@
-class AuthService{
+import 'package:apucha_watch_movil/core/api_client/api_client.dart';
+import 'package:apucha_watch_movil/features/auth/domain/models/auth_response.dart';
+import 'package:apucha_watch_movil/features/auth/domain/models/register_request.dart';
+import 'package:dio/dio.dart';
+
+class AuthService {
   final ApiClient apiClient;
 
   AuthService(this.apiClient);
 
   //for login
-  Future<String?> login(String email, String password) async{
-    try{
+  Future<String?> login(String email, String password) async {
+    try {
       final response = await apiClient.dio.post(
         "/auth/login",
-        data:{
-          "email": email,
-          "password": password
-        }
+        data: {"email": email, "password": password},
       );
-      if(response.statusCode ==200){
+      if (response.statusCode == 200) {
         final authResponse = AuthResponse.fromJson(response.data);
+        return authResponse.session.access_token;
       }
-    } on DioException catch (e){
-      print("Error en login ${e.response?.data ?? e.messague}")
+    } on DioException catch (e) {
+      // ignore: avoid_print
+      print("Error en login ${e.response?.data ?? e.message}");
     }
     return null;
   }
 
   //for register
-  Future<bool> register(registerRequest: RegisterRequest) async {
-    try{
-      final response = await apiClient.post('auth/signup', data: registerRequest.toJson());
-      return reponse.statusCode == 201;
-    } on DioException catch (e){
+  Future<bool> register(RegisterRequest registerRequest) async {
+    try {
+      final response = await apiClient.dio.post(
+        'auth/signup',
+        data: registerRequest.toJson(),
+      );
+      return response.statusCode == 201;
+    } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error en register: ${e.response?.data ?? e.message}");
       return false;
     }
   }
 
-  Future<void> logout ()async{
+  Future<void> logout() async {
     apiClient.clearToken();
   }
-
 }
