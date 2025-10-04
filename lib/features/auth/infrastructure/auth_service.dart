@@ -15,7 +15,7 @@ class AuthService {
         "/auth/login",
         data: {"email": email, "password": password},
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final authResponse = AuthResponse.fromJson(response.data);
         return authResponse.session.access_token;
       }
