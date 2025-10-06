@@ -1,16 +1,16 @@
 import 'package:apucha_watch_movil/features/auth/domain/models/register_request.dart';
-import 'package:apucha_watch_movil/features/auth/infrastructure/auth_service.dart';
+import 'package:apucha_watch_movil/features/auth/presentation/provider/auth_service_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RegisterScreen extends StatefulWidget {
-  final AuthService authService;
-  const RegisterScreen({super.key, required this.authService});
+class RegisterScreen extends ConsumerStatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   //controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -28,6 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _errorMessague = null;
     });
     try {
+      final authService = ref.read(authServiceProvider);
       //construimos un RegisterRequest
       final registerRequest = RegisterRequest(
         email: _emailController.text,
@@ -35,8 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         name: _nameController.text,
         lastname: _lastnameController.text,
       );
-
-      final result = await widget.authService.register(registerRequest);
+      final result = await authService.register(registerRequest);
       if (result) {
         //if exist
         if (!mounted) return;

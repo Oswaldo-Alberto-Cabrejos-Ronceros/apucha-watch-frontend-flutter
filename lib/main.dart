@@ -1,24 +1,20 @@
-import 'package:apucha_watch_movil/core/api_client/api_client.dart';
 import 'package:apucha_watch_movil/core/theme/app_theme.dart';
-import 'package:apucha_watch_movil/features/auth/infrastructure/auth_service.dart';
 import 'package:apucha_watch_movil/features/auth/presentation/screens/login_screen.dart';
 import 'package:apucha_watch_movil/features/auth/presentation/screens/register_screen.dart';
 import 'package:apucha_watch_movil/screens/home_user/home_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   //for env variables
-   final apiClient = ApiClient('http://10.0.2.2:3000');
-  final  authService = AuthService(apiClient);
   await dotenv.load(fileName: ".env");
-  runApp( MyApp(authService:  authService,));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  final AuthService authService;
 
-  const MyApp({super.key, required this.authService});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -29,8 +25,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme().themeData(),
       initialRoute: '/login',
       routes: {
-        "/login":(context)=> LoginScreen(authService: authService),
-        "/register": (context)=> RegisterScreen(authService: authService,),
+        "/login": (context) => LoginScreen(),
+        "/register": (context) => RegisterScreen(),
         "/home": (context) => HomeUserScreen(),
       },
     );

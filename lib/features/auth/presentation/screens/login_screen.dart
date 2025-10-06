@@ -1,15 +1,15 @@
-import 'package:apucha_watch_movil/features/auth/infrastructure/auth_service.dart';
+import 'package:apucha_watch_movil/features/auth/presentation/provider/auth_service_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
-  final AuthService authService;
-  const LoginScreen({super.key, required this.authService});
+class LoginScreen extends ConsumerStatefulWidget  {
+  const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   //controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -24,7 +24,9 @@ class _LoginScreenState extends State<LoginScreen> {
       _errorMessague = null;
     });
     try {
-      final result = await widget.authService.login(
+      //get authService from provider
+      final authService = ref.read(authServiceProvider);
+      final result = await authService.login(
         _emailController.text,
         _passwordController.text,
       );

@@ -44,6 +44,8 @@ dependencies:
   socket_io_client: ^3.1.2
   #for json serializable
   json_annotation: ^4.9.0
+  # state management
+  flutter_riverpod: ^2.6.1
 
 dev_dependencies:
   flutter_test:
