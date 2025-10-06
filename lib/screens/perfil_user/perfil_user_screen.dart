@@ -1,4 +1,5 @@
 import 'package:apucha_watch_movil/screens/perfil_user/widgets/carer_perfil_card.dart';
+import 'package:apucha_watch_movil/screens/perfil_user/widgets/confirm_out_session_alert_dialog.dart';
 import 'package:apucha_watch_movil/screens/perfil_user/widgets/senior_citizen_perfil_card.dart';
 import 'package:flutter/material.dart';
 
@@ -11,9 +12,23 @@ class PerfilUserScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
       children: [
-        Text(
-          'Mi Perfil',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Mi Perfil',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            FloatingActionButton.extended(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => ConfirmOutSessionAlertDialog(),
+                );
+              },
+              label: Text('Cerrar Sesión'),
+            ),
+          ],
         ),
         CarerPerfilCard(names: 'Juan Marcos', lastnames: 'Pérez Vásquez'),
         Text(

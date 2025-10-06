@@ -104,7 +104,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Center(child: Text('¿No tienes una cuenta?')),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/navigator');
+                    Navigator.pushNamed(context, '/register');
                   },
                   child: Text('Regístrate'),
                 ),
