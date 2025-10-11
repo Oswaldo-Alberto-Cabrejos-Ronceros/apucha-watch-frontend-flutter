@@ -1,6 +1,8 @@
 import 'package:apucha_watch_movil/core/theme/app_theme.dart';
+import 'package:apucha_watch_movil/features/auth/presentation/screens/add_device_screen.dart';
 import 'package:apucha_watch_movil/features/auth/presentation/screens/login_screen.dart';
 import 'package:apucha_watch_movil/features/auth/presentation/screens/register_screen.dart';
+import 'package:apucha_watch_movil/screens/create_senior_citizen/create_senior_citizen.dart';
 import 'package:apucha_watch_movil/screens/home_user/home_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -13,7 +15,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
       routes: {
         "/login": (context) => LoginScreen(),
         "/register": (context) => RegisterScreen(),
+        "/register/device": (context) => AddDeviceScreen(),
+        "/register/senior_citizen": (context) => CreateSeniorCitizenScreen(),
         "/home": (context) => HomeUserScreen(),
       },
     );

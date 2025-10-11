@@ -21,7 +21,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   //loading
   bool _loading = false;
 
-  //metodo que inicia sesion
+  //metodo que registra usuario
   Future<void> _register() async {
     setState(() {
       _loading = true;
@@ -37,7 +37,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         lastname: _lastnameController.text,
       );
       final result = await authService.register(registerRequest);
-      if (result) {
+      if (result != null) {
         //if exist
         if (!mounted) return;
         //por mientras despues poner pagina de espera de confimacion de correo
@@ -123,7 +123,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
 
                 FilledButton(
-                  onPressed: _loading ? null : _register,
+                  onPressed: _loading
+                      ? null
+                      : () {
+                          Navigator.pushNamed(context, '/register/device');
+                        },
                   child: Text('Registrarse'),
                 ),
                 Center(child: Text('¿Ya tienes una cuenta?')),

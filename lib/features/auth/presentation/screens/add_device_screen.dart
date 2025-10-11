@@ -19,7 +19,14 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               spacing: 12,
               children: [
-                Text('Vincular reloj', style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.primary)),
+                Text(
+                  'Vincular reloj',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
                 Text(
                   'Ingrese el codigo del reloj',
                   style: TextStyle(fontSize: 16),
@@ -31,7 +38,12 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                FilledButton(onPressed: () {}, child: Text('Vincular')),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/register/senior_citizen');
+                  },
+                  child: Text('Vincular'),
+                ),
               ],
             ),
           ),

@@ -17,7 +17,10 @@ class AuthService {
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final authResponse = AuthResponse.fromJson(response.data);
-        return authResponse.session.access_token;
+        //guardamos token
+        final accessToken = authResponse.session.access_token;
+        apiClient.setToken(accessToken);
+        return accessToken;
       }
     } on DioException catch (e) {
       // ignore: avoid_print
@@ -27,18 +30,24 @@ class AuthService {
   }
 
   //for register
-  Future<bool> register(RegisterRequest registerRequest) async {
+  Future<String?> register(RegisterRequest registerRequest) async {
     try {
       final response = await apiClient.dio.post(
         'auth/signup',
         data: registerRequest.toJson(),
       );
-      return response.statusCode == 201;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final authResponse = AuthResponse.fromJson(response.data);
+        //guardamos token
+        final accessToken = authResponse.session.access_token;
+        apiClient.setToken(accessToken);
+        return accessToken;
+      }
     } on DioException catch (e) {
       // ignore: avoid_print
       print("Error en register: ${e.response?.data ?? e.message}");
-      return false;
     }
+    return null;
   }
 
   Future<void> logout() async {
