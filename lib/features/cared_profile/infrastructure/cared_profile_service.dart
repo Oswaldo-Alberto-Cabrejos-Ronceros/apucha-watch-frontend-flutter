@@ -19,6 +19,7 @@ class CaredProfileService {
       }
       return null;
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al crear perfil cuidado: ${e.response?.data ?? e.message}");
       return null;
     }
@@ -48,7 +49,22 @@ class CaredProfileService {
       }
       return null;
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al obtener perfil cuidado: ${e.response?.data ?? e.message}");
+      return null;
+    }
+  }
+
+  Future<CaredProfileResponse?> findByUserId(String userId) async {
+    try {
+      final response = await apiClient.dio.get('/cared-profile/by-user/$userId');
+      if (response.statusCode == 200) {
+        return CaredProfileResponse.fromJson(response.data);
+      }
+      return null;
+    } on DioException catch (e) {
+      // ignore: avoid_print
+      print("Error al obtener perfil por userId: ${e.response?.data ?? e.message}");
       return null;
     }
   }
@@ -66,6 +82,7 @@ class CaredProfileService {
       }
       return null;
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al actualizar perfil cuidado: ${e.response?.data ?? e.message}");
       return null;
     }
@@ -76,6 +93,7 @@ class CaredProfileService {
     try {
       await apiClient.dio.delete('/cared-profile/$id');
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al eliminar perfil cuidado: ${e.response?.data ?? e.message}");
       throw Exception("Error en petición: ${e.response?.data ?? e.message}");
     }
@@ -86,6 +104,7 @@ class CaredProfileService {
     try {
       await apiClient.dio.patch('/cared-profile/restore/$id');
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al restaurar perfil cuidado: ${e.response?.data ?? e.message}");
       throw Exception("Error en petición: ${e.response?.data ?? e.message}");
     }
