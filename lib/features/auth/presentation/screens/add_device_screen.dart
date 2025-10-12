@@ -81,6 +81,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
                     labelText: 'Codigo del reloj',
                     border: OutlineInputBorder(),
                   ),
+                  controller: _codeController,
                 ),
                 if (_loading) CircularProgressIndicator(),
                 if (_errorMessague != null)

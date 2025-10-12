@@ -91,6 +91,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     labelText: 'Correo electrónico',
                     border: OutlineInputBorder(),
                   ),
+                  controller: _emailController,
                 ),
                 //textfield password
                 TextField(
@@ -98,6 +99,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     labelText: 'Contraseña',
                     border: OutlineInputBorder(),
                   ),
+                  controller: _passwordController,
                   obscureText: true,
                 ),
                 //textfield confirm password
@@ -113,12 +115,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     labelText: 'Nombres',
                     border: OutlineInputBorder(),
                   ),
+                  controller: _nameController,
                 ),
                 TextField(
                   decoration: InputDecoration(
                     labelText: 'Apellidos',
                     border: OutlineInputBorder(),
                   ),
+                  controller: _lastnameController,
                 ),
                 if (_loading) const CircularProgressIndicator(),
                 //error

@@ -10,20 +10,20 @@ CaredSeniorCitizenResponse _$CaredSeniorCitizenResponseFromJson(
   Map<String, dynamic> json,
 ) => CaredSeniorCitizenResponse(
   id: (json['id'] as num).toInt(),
-  caredProfile: CaredProfileMinimunResponse.fromJson(
-    json['caredProfile'] as Map<String, dynamic>,
+  carerProfile: CaredProfileMinimunResponse.fromJson(
+    json['carerProfile'] as Map<String, dynamic>,
   ),
   seniorCitizenProfile: SeniorCitizenProfileMinimunResponse.fromJson(
     json['seniorCitizenProfile'] as Map<String, dynamic>,
   ),
-  createAt: DateTime.parse(json['createAt'] as String),
+  createAt: json['createAt'] as String,
 );
 
 Map<String, dynamic> _$CaredSeniorCitizenResponseToJson(
   CaredSeniorCitizenResponse instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  'caredProfile': instance.caredProfile,
+  'carerProfile': instance.carerProfile,
   'seniorCitizenProfile': instance.seniorCitizenProfile,
-  'createAt': instance.createAt.toIso8601String(),
+  'createAt': instance.createAt,
 };

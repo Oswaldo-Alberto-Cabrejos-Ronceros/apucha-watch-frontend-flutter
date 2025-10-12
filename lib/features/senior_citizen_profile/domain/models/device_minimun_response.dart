@@ -3,7 +3,7 @@ part 'device_minimun_response.g.dart';
 
 @JsonSerializable()
 class DeviceMininumResponse {
-  final String id;
+  final int id;
   DeviceMininumResponse({required this.id});
 
   factory DeviceMininumResponse.fromJson(Map<String, dynamic> json) =>

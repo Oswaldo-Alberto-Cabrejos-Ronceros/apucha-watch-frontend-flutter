@@ -10,6 +10,7 @@ class DeviceService {
   // Create
   Future<DeviceResponse?> create(DeviceRequest deviceRequest) async {
     try {
+      print('Creating device with data: ${deviceRequest.toJson()}');
       final response = await apiClient.dio.post(
         '/devices',
         data: deviceRequest.toJson(),

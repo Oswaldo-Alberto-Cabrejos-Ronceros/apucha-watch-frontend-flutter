@@ -6,12 +6,12 @@ part 'cared_senior_citizen_response.g.dart';
 @JsonSerializable()
 class CaredSeniorCitizenResponse {
   final int id;
-  final CaredProfileMinimunResponse caredProfile;
+  final CaredProfileMinimunResponse carerProfile;
   final SeniorCitizenProfileMinimunResponse seniorCitizenProfile;
-  final DateTime createAt;
+  final String createAt;
   CaredSeniorCitizenResponse({
     required this.id,
-    required this.caredProfile,
+    required this.carerProfile,
     required this.seniorCitizenProfile,
     required this.createAt,
   });

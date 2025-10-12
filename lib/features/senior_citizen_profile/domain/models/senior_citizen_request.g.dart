@@ -11,7 +11,7 @@ SeniorCitizenRequest _$SeniorCitizenRequestFromJson(
 ) => SeniorCitizenRequest(
   name: json['name'] as String,
   lastname: json['lastname'] as String,
-  birthdate: DateTime.parse(json['birthdate'] as String),
+  birthdate: json['birthdate'] as String,
   deviceId: (json['deviceId'] as num).toInt(),
 );
 
@@ -20,6 +20,6 @@ Map<String, dynamic> _$SeniorCitizenRequestToJson(
 ) => <String, dynamic>{
   'name': instance.name,
   'lastname': instance.lastname,
-  'birthdate': instance.birthdate.toIso8601String(),
+  'birthdate': instance.birthdate,
   'deviceId': instance.deviceId,
 };

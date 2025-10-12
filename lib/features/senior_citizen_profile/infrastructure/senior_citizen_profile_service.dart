@@ -12,6 +12,7 @@ class SeniorCitizenProfileService {
     SeniorCitizenRequest seniorCitizenRequest,
   ) async {
     try {
+      print('Creating senior citizen with data: ${seniorCitizenRequest.toJson()}');
       final response = await apiClient.dio.post(
         '/senior-citizen-profile',
         data: seniorCitizenRequest.toJson(),
@@ -22,7 +23,7 @@ class SeniorCitizenProfileService {
       return null;
     } on DioException catch (e) {
       // ignore: avoid_print
-      print("Error en login ${e.response?.data ?? e.message}");
+      print("Error en crear ${e.response?.data ?? e.message}");
       return null;
     }
   }

@@ -20,7 +20,7 @@ class AuthService {
         //guardamos token
         final accessToken = authResponse.session.access_token;
         apiClient.setToken(accessToken);
-         return authResponse;
+        return authResponse;
       }
     } on DioException catch (e) {
       // ignore: avoid_print
@@ -32,10 +32,13 @@ class AuthService {
   //for register
   Future<AuthResponse?> register(RegisterRequest registerRequest) async {
     try {
+      print('registerRequest ${registerRequest.toJson()}');
       final response = await apiClient.dio.post(
-        'auth/signup',
+        '/auth/signup',
         data: registerRequest.toJson(),
       );
+
+      print('response $response');
       if (response.statusCode == 200 || response.statusCode == 201) {
         final authResponse = AuthResponse.fromJson(response.data);
         //guardamos token
