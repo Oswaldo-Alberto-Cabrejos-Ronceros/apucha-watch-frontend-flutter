@@ -1,13 +1,54 @@
+import 'package:apucha_watch_movil/features/device/domain/models/device_request.dart';
+import 'package:apucha_watch_movil/features/device/presentation/provider/device_service_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddDeviceScreen extends StatefulWidget {
+class AddDeviceScreen extends ConsumerStatefulWidget {
   const AddDeviceScreen({super.key});
 
   @override
-  State<AddDeviceScreen> createState() => _AddDeviceScreenState();
+  ConsumerState<AddDeviceScreen> createState() => _AddDeviceScreenState();
 }
 
-class _AddDeviceScreenState extends State<AddDeviceScreen> {
+class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
+  //controllers
+  final _codeController = TextEditingController();
+  //error message
+  String? _errorMessague;
+  //loading
+  bool _loading = false;
+  //metodo para registrar dispositivo
+  Future<void> _addDevice() async {
+    setState(() {
+      _loading = true;
+      _errorMessague = null;
+    });
+    try {
+      //creamos un deviceService
+      final deviceService = ref.read(deviceServiceProvider);
+      //contruimos un deviceRequest
+      final deviceRequest = DeviceRequest(code: _codeController.text);
+      final result = await deviceService.create(deviceRequest);
+      if (result != null) {
+        //if exist
+        if (!mounted) return;
+        Navigator.pushNamed(context, '/register/senior_citizen');
+      } else {
+        setState(() {
+          _errorMessague = 'Error al vincular dispositivo';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessague = 'Error inesperado $e';
+      });
+    } finally {
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,9 +79,12 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     border: OutlineInputBorder(),
                   ),
                 ),
+                if (_loading) CircularProgressIndicator(),
+                if (_errorMessague != null)
+                  Text(_errorMessague!, style: TextStyle(color: Colors.red)),
                 FilledButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/register/senior_citizen');
+                    _addDevice();
                   },
                   child: Text('Vincular'),
                 ),

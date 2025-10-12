@@ -41,7 +41,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         //if exist
         if (!mounted) return;
         //por mientras despues poner pagina de espera de confimacion de correo
-        Navigator.pushReplacementNamed(context, "/home");
+        Navigator.pushNamed(context, '/register/device');
       } else {
         setState(() {
           _errorMessague = 'Error al registar usuario';
@@ -126,7 +126,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   onPressed: _loading
                       ? null
                       : () {
-                          Navigator.pushNamed(context, '/register/device');
+                          _register();
                         },
                   child: Text('Registrarse'),
                 ),
