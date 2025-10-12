@@ -1,6 +1,6 @@
 import 'package:apucha_watch_movil/core/api_client/api_client.dart';
-import 'package:apucha_watch_movil/features/device/domain/models/ubication_request.dart';
-import 'package:apucha_watch_movil/features/device/domain/models/ubication_response.dart';
+import 'package:apucha_watch_movil/features/ubication/domain/models/ubication_request.dart';
+import 'package:apucha_watch_movil/features/ubication/domain/models/ubication_response.dart';
 import 'package:dio/dio.dart';
 
 class UbicationService {
@@ -19,6 +19,7 @@ class UbicationService {
       }
       return null;
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al crear ubicación: ${e.response?.data ?? e.message}");
       return null;
     }
@@ -48,6 +49,7 @@ class UbicationService {
       }
       return null;
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al obtener ubicación: ${e.response?.data ?? e.message}");
       return null;
     }
@@ -65,6 +67,7 @@ class UbicationService {
       }
       return null;
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al actualizar ubicación: ${e.response?.data ?? e.message}");
       return null;
     }
@@ -75,6 +78,7 @@ class UbicationService {
     try {
       await apiClient.dio.delete('/ubications/$id');
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al eliminar ubicación: ${e.response?.data ?? e.message}");
       throw Exception("Error en petición: ${e.response?.data ?? e.message}");
     }

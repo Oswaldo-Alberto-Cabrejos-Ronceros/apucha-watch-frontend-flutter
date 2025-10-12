@@ -19,6 +19,7 @@ class DeviceService {
       }
       return null;
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al crear dispositivo: ${e.response?.data ?? e.message}");
       return null;
     }
@@ -48,6 +49,7 @@ class DeviceService {
       }
       return null;
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al obtener dispositivo: ${e.response?.data ?? e.message}");
       return null;
     }
@@ -58,6 +60,7 @@ class DeviceService {
     try {
       await apiClient.dio.delete('/devices/$id');
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al eliminar dispositivo: ${e.response?.data ?? e.message}");
       throw Exception("Error en petición: ${e.response?.data ?? e.message}");
     }

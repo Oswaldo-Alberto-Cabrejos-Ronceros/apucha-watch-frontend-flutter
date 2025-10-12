@@ -1,6 +1,6 @@
 import 'package:apucha_watch_movil/core/api_client/api_client.dart';
-import 'package:apucha_watch_movil/features/device/domain/models/vital_sign_request.dart';
-import 'package:apucha_watch_movil/features/device/domain/models/vital_sign_response.dart';
+import 'package:apucha_watch_movil/features/vitalsign/domain/models/vital_sign_request.dart';
+import 'package:apucha_watch_movil/features/vitalsign/domain/models/vital_sign_response.dart';
 import 'package:dio/dio.dart';
 
 class VitalSignService {
@@ -19,6 +19,7 @@ class VitalSignService {
       }
       return null;
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al crear signo vital: ${e.response?.data ?? e.message}");
       return null;
     }
@@ -48,6 +49,7 @@ class VitalSignService {
       }
       return null;
     } on DioException catch (e) {
+      // ignore: avoid_print
       print("Error al obtener signo vital: ${e.response?.data ?? e.message}");
       return null;
     }
