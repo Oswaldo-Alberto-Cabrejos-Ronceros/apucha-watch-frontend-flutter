@@ -3,10 +3,10 @@ part 'cared_senior_citizen_request.g.dart';
 
 @JsonSerializable()
 class CaredSeniorCitizenRequest {
-  final int carerProfileId;
+  final int caredProfileId;
   final int seniorCitizenProfileId;
   CaredSeniorCitizenRequest({
-    required this.carerProfileId,
+    required this.caredProfileId,
     required this.seniorCitizenProfileId,
   });
     factory CaredSeniorCitizenRequest.fromJson(Map<String, dynamic> json) =>
