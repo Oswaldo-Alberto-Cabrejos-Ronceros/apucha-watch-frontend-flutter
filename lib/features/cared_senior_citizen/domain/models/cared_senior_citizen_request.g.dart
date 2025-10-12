@@ -9,13 +9,13 @@ part of 'cared_senior_citizen_request.dart';
 CaredSeniorCitizenRequest _$CaredSeniorCitizenRequestFromJson(
   Map<String, dynamic> json,
 ) => CaredSeniorCitizenRequest(
-  carerProfileId: (json['carerProfileId'] as num).toInt(),
+  caredProfileId: (json['caredProfileId'] as num).toInt(),
   seniorCitizenProfileId: (json['seniorCitizenProfileId'] as num).toInt(),
 );
 
 Map<String, dynamic> _$CaredSeniorCitizenRequestToJson(
   CaredSeniorCitizenRequest instance,
 ) => <String, dynamic>{
-  'carerProfileId': instance.carerProfileId,
+  'caredProfileId': instance.caredProfileId,
   'seniorCitizenProfileId': instance.seniorCitizenProfileId,
 };
