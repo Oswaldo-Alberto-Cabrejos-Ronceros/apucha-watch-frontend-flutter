@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:apucha_watch_movil/features/device/domain/models/ubication_response.dart';
-import 'package:apucha_watch_movil/features/device/domain/models/vital_sign_response.dart';
+import 'package:apucha_watch_movil/features/ubication/domain/models/ubication_response.dart';
+import 'package:apucha_watch_movil/features/vitalsign/domain/models/vital_sign_response.dart';
 
 part 'device_response.g.dart';
 
