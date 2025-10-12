@@ -1,6 +1,7 @@
 import 'package:apucha_watch_movil/core/api_client/api_client.dart';
 import 'package:apucha_watch_movil/features/cared_senior_citizen/domain/models/cared_senior_citizen_request.dart';
 import 'package:apucha_watch_movil/features/cared_senior_citizen/domain/models/cared_senior_citizen_response.dart';
+import 'package:apucha_watch_movil/features/cared_senior_citizen/domain/models/cared_senior_citizen_with_user_request.dart';
 import 'package:dio/dio.dart';
 
 class CaredSeniorCitizenService {
@@ -15,6 +16,26 @@ class CaredSeniorCitizenService {
       final response = await apiClient.dio.post(
         '/cared-senior-citizen',
         data: caredSeniorCitizenRequest.toJson(),
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return CaredSeniorCitizenResponse.fromJson(response.data);
+      }
+      return null;
+    } on DioException catch (e) {
+      // ignore: avoid_print
+      print("Error en login ${e.response?.data ?? e.message}");
+      return null;
+    }
+  }
+
+  //for create with user
+  Future<CaredSeniorCitizenResponse?> createWithUser(
+    CaredSeniorCitizenWithUserRequest caredSeniorCitizenWithUserRequest,
+  ) async {
+    try {
+      final response = await apiClient.dio.post(
+        '/cared-senior-citizen/by-user-id',
+        data: caredSeniorCitizenWithUserRequest.toJson(),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         return CaredSeniorCitizenResponse.fromJson(response.data);

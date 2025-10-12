@@ -1,5 +1,6 @@
 import 'package:apucha_watch_movil/features/auth/domain/models/register_request.dart';
 import 'package:apucha_watch_movil/features/auth/presentation/provider/auth_service_provider.dart';
+import 'package:apucha_watch_movil/features/auth/presentation/provider/session_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,6 +39,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       );
       final result = await authService.register(registerRequest);
       if (result != null) {
+        final sessionDataProviderRef = ref.read(sessionDataProvider.notifier);
+        sessionDataProviderRef.login(
+          result.session.access_token,
+          result.user.id,
+        );
         //if exist
         if (!mounted) return;
         //por mientras despues poner pagina de espera de confimacion de correo

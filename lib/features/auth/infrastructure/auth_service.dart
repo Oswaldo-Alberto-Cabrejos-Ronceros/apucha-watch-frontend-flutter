@@ -9,7 +9,7 @@ class AuthService {
   AuthService(this.apiClient);
 
   //for login
-  Future<String?> login(String email, String password) async {
+  Future<AuthResponse?> login(String email, String password) async {
     try {
       final response = await apiClient.dio.post(
         "/auth/login",
@@ -20,7 +20,7 @@ class AuthService {
         //guardamos token
         final accessToken = authResponse.session.access_token;
         apiClient.setToken(accessToken);
-        return accessToken;
+         return authResponse;
       }
     } on DioException catch (e) {
       // ignore: avoid_print
@@ -30,7 +30,7 @@ class AuthService {
   }
 
   //for register
-  Future<String?> register(RegisterRequest registerRequest) async {
+  Future<AuthResponse?> register(RegisterRequest registerRequest) async {
     try {
       final response = await apiClient.dio.post(
         'auth/signup',
@@ -41,7 +41,7 @@ class AuthService {
         //guardamos token
         final accessToken = authResponse.session.access_token;
         apiClient.setToken(accessToken);
-        return accessToken;
+        return authResponse;
       }
     } on DioException catch (e) {
       // ignore: avoid_print

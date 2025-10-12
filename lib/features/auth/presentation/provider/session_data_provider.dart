@@ -14,13 +14,21 @@ class SessionDataNotifier extends Notifier<Map<String, dynamic>?> {
     state = {};
   }
 
-  void setDeviceId(String deviceId) {
+  void setDeviceId(int deviceId) {
     state = {...?state, 'deviceId': deviceId};
   }
 
-  //provider global
-  final sessionDataProvider =
-      NotifierProvider<SessionDataNotifier, Map<String, dynamic>?>(
-        SessionDataNotifier.new,
-      );
+  void cleanDeviceId() {
+    if (state != null && state!.containsKey('deviceId')) {
+      final newState = {...state!};
+      newState.remove('deviceId');
+      state = newState;
+    }
+  }
 }
+
+//provider global
+final sessionDataProvider =
+    NotifierProvider<SessionDataNotifier, Map<String, dynamic>?>(
+      SessionDataNotifier.new,
+    );

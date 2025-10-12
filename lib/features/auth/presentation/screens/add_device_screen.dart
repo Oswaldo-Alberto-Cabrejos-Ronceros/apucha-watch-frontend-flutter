@@ -1,3 +1,4 @@
+import 'package:apucha_watch_movil/features/auth/presentation/provider/session_data_provider.dart';
 import 'package:apucha_watch_movil/features/device/domain/models/device_request.dart';
 import 'package:apucha_watch_movil/features/device/presentation/provider/device_service_provider.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,8 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
       if (result != null) {
         //if exist
         if (!mounted) return;
+        final sessionDataProviderRef = ref.read(sessionDataProvider.notifier);
+        sessionDataProviderRef.setDeviceId(result.id);
         Navigator.pushNamed(context, '/register/senior_citizen');
       } else {
         setState(() {
