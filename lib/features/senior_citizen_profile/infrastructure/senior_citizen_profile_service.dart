@@ -22,7 +22,7 @@ class SeniorCitizenProfileService {
       return null;
     } on DioException catch (e) {
       // ignore: avoid_print
-      print("Error en login ${e.response?.data ?? e.message}");
+      print("Error en crear ${e.response?.data ?? e.message}");
       return null;
     }
   }

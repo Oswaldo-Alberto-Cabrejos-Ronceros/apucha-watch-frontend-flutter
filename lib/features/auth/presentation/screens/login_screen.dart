@@ -20,6 +20,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   //metodo que inicia sesion
   Future<void> _login() async {
+    if (!mounted) return;
     setState(() {
       _loading = true;
       _errorMessague = null;
@@ -42,18 +43,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
         Navigator.pushReplacementNamed(context, "/home");
       } else {
+        if (!mounted) return;
         setState(() {
           _errorMessague = 'Credenciales invalidas';
         });
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _errorMessague = 'Error inesperado $e';
       });
     } finally {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
   }
 

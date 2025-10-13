@@ -8,7 +8,7 @@ part of 'device_minimun_response.dart';
 
 DeviceMininumResponse _$DeviceMininumResponseFromJson(
   Map<String, dynamic> json,
-) => DeviceMininumResponse(id: json['id'] as String);
+) => DeviceMininumResponse(id: (json['id'] as num).toInt());
 
 Map<String, dynamic> _$DeviceMininumResponseToJson(
   DeviceMininumResponse instance,

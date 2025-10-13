@@ -5,6 +5,7 @@ import 'package:apucha_watch_movil/features/senior_citizen_profile/domain/models
 import 'package:apucha_watch_movil/features/senior_citizen_profile/presentation/provider/senior_citizen_profile_service_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class CreateSeniorCitizenScreen extends ConsumerStatefulWidget {
   const CreateSeniorCitizenScreen({super.key});
@@ -26,6 +27,7 @@ class _CreateSeniorCitizenScreenState
   bool _loading = false;
   //metodo que registra una persona mayor
   Future<void> _createSeniorCitizen() async {
+     if (!mounted) return;
     setState(() {
       _loading = true;
       _errorMessague = null;
@@ -39,11 +41,19 @@ class _CreateSeniorCitizenScreenState
         final seniorCitizenService = ref.read(
           seniorCitizenProfileServiceProvide,
         );
+        //parseamos
+        //definimos el formato
+        DateFormat inputFormat = DateFormat('dd/MM/yyyy');
+        //parseamos la fecha
+        DateTime parsedDate = inputFormat.parse(_birthdateController.text);
+        //convertimos a ISO 8601 y quitamos hora
+        String isoDate = parsedDate.toIso8601String().split('T')[0];
+
         //construimos un SeniorCitizenRequest
         final seniorCitizenRequest = SeniorCitizenRequest(
           name: _nameController.text,
           lastname: _lastnameController.text,
-          birthdate: DateTime.parse(_birthdateController.text),
+          birthdate: isoDate,
           deviceId: deviceId,
         );
         //llamamos al servicio para
@@ -67,28 +77,34 @@ class _CreateSeniorCitizenScreenState
             if (!mounted) return;
             Navigator.pushReplacementNamed(context, '/home');
           } else {
+             if (!mounted) return;
             setState(() {
               _errorMessague = 'Error al vincular cuidador con adulto mayor';
             });
           }
         } else {
+           if (!mounted) return;
           setState(() {
             _errorMessague = 'Error al registrar adulto mayor';
           });
         }
       } else {
+        if (!mounted) return;
         setState(() {
           _errorMessague = 'Device Id o User Id no encontrado';
         });
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _errorMessague = 'Error inesperado';
       });
     } finally {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
   }
 
@@ -102,6 +118,15 @@ class _CreateSeniorCitizenScreenState
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text(
+                  'Crear Perfil del Adulto Mayor',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                Text('Ingrese los datos', style: TextStyle(fontSize: 16)),
                 TextField(
                   controller: _nameController,
                   decoration: InputDecoration(labelText: 'Nombres'),
@@ -112,7 +137,7 @@ class _CreateSeniorCitizenScreenState
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Fecha de Diagnóstico',
+                    labelText: 'Fecha de Nacimiento',
                     suffixIcon: Icon(Icons.calendar_today),
                   ),
                   readOnly: true,

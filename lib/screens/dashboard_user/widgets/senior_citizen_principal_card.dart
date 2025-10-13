@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
 class SeniorCitizenPrincipalCard extends StatelessWidget {
-  const SeniorCitizenPrincipalCard({super.key});
+  const SeniorCitizenPrincipalCard({
+    super.key,
+    required this.names,
+    required this.lastnames,
+    required this.age,
+    required this.healthConditions,
+  });
+  final String names;
+  final String lastnames;
+  final int age;
+  final List<String> healthConditions;
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +31,13 @@ class SeniorCitizenPrincipalCard extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(Icons.person),
-                title: Text('Nombre del adulto mayor'),
-                subtitle: Text('Edad: 75 años'),
+                title: Text('$names $lastnames'),
+                subtitle: Text('Edad: $age años'),
               ),
               ListTile(
                 leading: Icon(Icons.health_and_safety),
                 title: Text('Condición de salud'),
-                subtitle: Text('Hipertensión, Diabetes'),
+                subtitle: Text(healthConditions.join(', ')),
               ),
             ],
           ),

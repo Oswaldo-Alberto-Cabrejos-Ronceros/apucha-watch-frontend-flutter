@@ -24,6 +24,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   //metodo que registra usuario
   Future<void> _register() async {
+     if (!mounted) return;
     setState(() {
       _loading = true;
       _errorMessague = null;
@@ -49,18 +50,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         //por mientras despues poner pagina de espera de confimacion de correo
         Navigator.pushNamed(context, '/register/device');
       } else {
+         if (!mounted) return;
         setState(() {
           _errorMessague = 'Error al registar usuario';
         });
       }
     } catch (e) {
+       if (!mounted) return;
       setState(() {
         _errorMessague = 'Error inesperado $e';
       });
     } finally {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
   }
 
@@ -91,6 +96,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     labelText: 'Correo electrónico',
                     border: OutlineInputBorder(),
                   ),
+                  controller: _emailController,
                 ),
                 //textfield password
                 TextField(
@@ -98,6 +104,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     labelText: 'Contraseña',
                     border: OutlineInputBorder(),
                   ),
+                  controller: _passwordController,
                   obscureText: true,
                 ),
                 //textfield confirm password
@@ -113,12 +120,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     labelText: 'Nombres',
                     border: OutlineInputBorder(),
                   ),
+                  controller: _nameController,
                 ),
                 TextField(
                   decoration: InputDecoration(
                     labelText: 'Apellidos',
                     border: OutlineInputBorder(),
                   ),
+                  controller: _lastnameController,
                 ),
                 if (_loading) const CircularProgressIndicator(),
                 //error

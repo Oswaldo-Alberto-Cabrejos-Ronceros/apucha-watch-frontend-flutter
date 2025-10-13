@@ -24,6 +24,7 @@ class _HomeUserScreenState extends State<HomeUserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Apucha Watch',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),

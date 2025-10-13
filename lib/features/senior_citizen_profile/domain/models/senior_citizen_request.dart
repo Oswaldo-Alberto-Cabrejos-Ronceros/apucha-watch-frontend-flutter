@@ -5,7 +5,7 @@ part 'senior_citizen_request.g.dart';
 class SeniorCitizenRequest {
   final String name;
   final String lastname;
-  final DateTime birthdate;
+  final String birthdate;
   final int deviceId;
   SeniorCitizenRequest({
     required this.name,

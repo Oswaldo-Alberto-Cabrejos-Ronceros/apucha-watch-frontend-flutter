@@ -16,7 +16,7 @@ CaredSeniorCitizenResponse _$CaredSeniorCitizenResponseFromJson(
   seniorCitizenProfile: SeniorCitizenProfileMinimunResponse.fromJson(
     json['seniorCitizenProfile'] as Map<String, dynamic>,
   ),
-  createAt: DateTime.parse(json['createAt'] as String),
+  createAt: json['createAt'] as String,
 );
 
 Map<String, dynamic> _$CaredSeniorCitizenResponseToJson(
@@ -25,5 +25,5 @@ Map<String, dynamic> _$CaredSeniorCitizenResponseToJson(
   'id': instance.id,
   'caredProfile': instance.caredProfile,
   'seniorCitizenProfile': instance.seniorCitizenProfile,
-  'createAt': instance.createAt.toIso8601String(),
+  'createAt': instance.createAt,
 };
