@@ -27,6 +27,7 @@ class _CreateSeniorCitizenScreenState
   bool _loading = false;
   //metodo que registra una persona mayor
   Future<void> _createSeniorCitizen() async {
+     if (!mounted) return;
     setState(() {
       _loading = true;
       _errorMessague = null;
@@ -76,28 +77,34 @@ class _CreateSeniorCitizenScreenState
             if (!mounted) return;
             Navigator.pushReplacementNamed(context, '/home');
           } else {
+             if (!mounted) return;
             setState(() {
               _errorMessague = 'Error al vincular cuidador con adulto mayor';
             });
           }
         } else {
+           if (!mounted) return;
           setState(() {
             _errorMessague = 'Error al registrar adulto mayor';
           });
         }
       } else {
+        if (!mounted) return;
         setState(() {
           _errorMessague = 'Device Id o User Id no encontrado';
         });
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _errorMessague = 'Error inesperado';
       });
     } finally {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
   }
 

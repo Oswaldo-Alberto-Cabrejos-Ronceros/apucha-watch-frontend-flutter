@@ -115,4 +115,26 @@ class CaredSeniorCitizenService {
       throw Exception("Error en petición: ${e.response?.data ?? e.message}");
     }
   }
+
+  //for get all relations by userId
+  Future<List<CaredSeniorCitizenResponse>> getAllByUserId(String userId) async {
+    try {
+      final response = await apiClient.dio.get(
+        '/cared-senior-citizen/user/$userId',
+      );
+      if (response.statusCode == 200) {
+        print('Response data: ${response.data}');
+        final List<dynamic> data = response.data;
+        final relations = data
+            .map((json) => CaredSeniorCitizenResponse.fromJson(json))
+            .toList();
+            print('Parsed relations: $relations');
+            return relations;
+      } else {
+        throw Exception("Error en petición: ${response.statusCode}");
+      }
+    } on DioException catch (e) {
+      throw Exception("Error en petición: ${e.response?.data ?? e.message}");
+    }
+  }
 }

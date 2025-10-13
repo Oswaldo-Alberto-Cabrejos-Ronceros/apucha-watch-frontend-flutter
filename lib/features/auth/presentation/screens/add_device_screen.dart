@@ -20,6 +20,7 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
   bool _loading = false;
   //metodo para registrar dispositivo
   Future<void> _addDevice() async {
+    if (!mounted) return;
     setState(() {
       _loading = true;
       _errorMessague = null;
@@ -37,18 +38,22 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
         sessionDataProviderRef.setDeviceId(result.id);
         Navigator.pushNamed(context, '/register/senior_citizen');
       } else {
+        if (!mounted) return;
         setState(() {
           _errorMessague = 'Error al vincular dispositivo';
         });
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _errorMessague = 'Error inesperado $e';
       });
     } finally {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
   }
 

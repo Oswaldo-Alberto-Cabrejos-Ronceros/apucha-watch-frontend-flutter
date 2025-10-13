@@ -12,7 +12,6 @@ class SeniorCitizenProfileService {
     SeniorCitizenRequest seniorCitizenRequest,
   ) async {
     try {
-      print('Creating senior citizen with data: ${seniorCitizenRequest.toJson()}');
       final response = await apiClient.dio.post(
         '/senior-citizen-profile',
         data: seniorCitizenRequest.toJson(),
