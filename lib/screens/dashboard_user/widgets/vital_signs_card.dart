@@ -1,8 +1,10 @@
+import 'package:apucha_watch_movil/features/vitalsign/domain/models/vital_sign_minimun_response.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/metric_card.dart';
 import 'package:flutter/material.dart';
 
 class VitalSignsCard extends StatelessWidget {
-  const VitalSignsCard({super.key});
+  const VitalSignsCard({super.key, required this.vitalSigns});
+  final VitalSignMinimunResponse vitalSigns;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +26,13 @@ class VitalSignsCard extends StatelessWidget {
                 spacing: 8,
                 children: [
                   MetricCard(
-                    value: '72',
+                    value: vitalSigns.heartRate.toString(),
                     label: 'BPM',
                     title: 'Frecuencia cardíaca',
                     color: Colors.red,
                   ),
                   MetricCard(
-                    value: '120/80',
+                    value: vitalSigns.oxygenSaturation.toString(),
                     label: 'mmHg',
                     title: 'Presión arterial',
                     color: Colors.blue,

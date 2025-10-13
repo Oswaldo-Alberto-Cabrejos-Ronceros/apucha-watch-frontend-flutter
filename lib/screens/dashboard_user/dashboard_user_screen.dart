@@ -1,9 +1,11 @@
+import 'package:apucha_watch_movil/core/socket_io_client/socket_io_client.dart';
 import 'package:apucha_watch_movil/features/auth/presentation/provider/session_data_provider.dart';
 import 'package:apucha_watch_movil/features/cared_profile/domain/models/cared_profile_response.dart';
 import 'package:apucha_watch_movil/features/cared_profile/presentation/provider/cared_profile_service_provider.dart';
 import 'package:apucha_watch_movil/features/cared_senior_citizen/presentation/provider/cared_senior_citizen_service_provider.dart';
 import 'package:apucha_watch_movil/features/senior_citizen_profile/domain/models/senior_citizen_profile_response.dart';
 import 'package:apucha_watch_movil/features/senior_citizen_profile/presentation/provider/senior_citizen_profile_service_provider.dart';
+import 'package:apucha_watch_movil/features/vitalsign/domain/models/vital_sign_minimun_response.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/location_card.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/senior_citizen_principal_card.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/status_device_card.dart';
@@ -28,14 +30,73 @@ class _DashboardUserScreenState extends ConsumerState<DashboardUserScreen> {
   String? _errorMessagueSeniorCitizen;
   bool _loadingSeniorCitizen = false;
   SeniorCitizenProfileResponse? _seniorCitizenProfile;
+  //for vital-signs data
+  String? _errorMessagueVitalSigns;
+  bool _loadingVitalSigns = false;
+  VitalSignMinimunResponse vitalsSigns = VitalSignMinimunResponse(
+    heartRate: 0,
+    oxygenSaturation: 0,
+  );
   //for now
   List<String> healthConditions = ['Hipertensión', 'Diabetes'];
   //on didChangeDependencies
+  final sockedIoClient = SocketIOClient();
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
-    _fetchCaredProfile();
-    _fetchSeniorCitizenData();
+    await _fetchCaredProfile();
+    await _fetchSeniorCitizenData();
+    await _fetchVitalSigns();
+  }
+
+  @override
+  void dispose() {
+    sockedIoClient.disconnect();
+    sockedIoClient.dispose();
+    super.dispose();
+  }
+
+  //metodo para recibir signos vitales
+  Future<void> _fetchVitalSigns() async {
+    if (!mounted) return;
+    setState(() {
+      _loadingVitalSigns = true;
+      _errorMessagueVitalSigns = null;
+    });
+
+    try {
+      final sessionData = ref.watch(sessionDataProvider);
+      final String token = sessionData?['token'];
+      if (token == '') {
+        throw Exception('Token no encontrado en sessionDataProvider');
+      }
+      sockedIoClient.connect('http://10.0.2.2:3000', token: token);
+
+      if (_seniorCitizenProfile == null) {
+        throw Exception('Perfil de adulto mayor no encontrado');
+      }
+      sockedIoClient.emit('subscribe', {
+        "deviceCode": _seniorCitizenProfile?.device.code,
+      });
+      sockedIoClient.on('vital-signs-update', (callback) {
+        VitalSignMinimunResponse vitalSignResponse =
+            VitalSignMinimunResponse.fromJson(callback);
+        setState(() {
+          vitalsSigns = vitalSignResponse;
+        });
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _errorMessagueVitalSigns = 'Error inesperado $e';
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _loadingVitalSigns = false;
+        });
+      }
+    }
   }
 
   //metodo busca perfil
@@ -172,7 +233,14 @@ class _DashboardUserScreenState extends ConsumerState<DashboardUserScreen> {
                 'No se encontró perfil de la persona mayor',
             style: const TextStyle(color: Colors.red),
           ),
-        VitalSignsCard(),
+        _loadingVitalSigns
+            ? const CircularProgressIndicator()
+            : VitalSignsCard(vitalSigns: vitalsSigns),
+        if (_errorMessagueVitalSigns != null)
+          Text(
+            _errorMessagueVitalSigns ?? 'Error al cargar signos vitales',
+            style: const TextStyle(color: Colors.red),
+          ),
         LocationCard(
           location: 'Av. Siempre Viva 123, Springfield',
           ago: 'Hace 2 minutos',
