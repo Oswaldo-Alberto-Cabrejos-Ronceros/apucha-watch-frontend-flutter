@@ -70,7 +70,7 @@ class _DashboardUserScreenState extends ConsumerState<DashboardUserScreen> {
       if (token == '') {
         throw Exception('Token no encontrado en sessionDataProvider');
       }
-      sockedIoClient.connect('http://10.0.2.2:3000', token: token);
+      sockedIoClient.connect('http://localhost:3000', token: token);
 
       if (_seniorCitizenProfile == null) {
         throw Exception('Perfil de adulto mayor no encontrado');

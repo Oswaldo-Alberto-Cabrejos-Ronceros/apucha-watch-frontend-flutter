@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class SocketIOClient {
- io.Socket? socket;
+  io.Socket? socket;
   final _messagesController = StreamController<dynamic>.broadcast();
   Stream<dynamic> get messages => _messagesController.stream;
 
@@ -15,11 +15,17 @@ class SocketIOClient {
       url,
       io.OptionBuilder()
           .setTransports(['websocket'])
-          .disableAutoConnect()
           .setAuth({'token': token})
+          .disableAutoConnect() 
           .enableReconnection()
           .setReconnectionAttempts(5)
           .setReconnectionDelay(2000)
+          .setTimeout(20000)
+          .setExtraHeaders({
+            'Connection': 'upgrade',
+            'foo': 'bar',
+            'Accept': 'application/json',
+          })
           .build(),
     );
     //conect
@@ -62,7 +68,7 @@ class SocketIOClient {
 
   //for get if is connected
   bool isConnected() {
-    return socket?.connected??false;
+    return socket?.connected ?? false;
   }
 
   //for disconnect
