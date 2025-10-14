@@ -10,7 +10,7 @@ DeviceMininumResponse _$DeviceMininumResponseFromJson(
   Map<String, dynamic> json,
 ) => DeviceMininumResponse(
   id: (json['id'] as num).toInt(),
-  code: json['code'] as String,
+  code: json['code'] as String?,
 );
 
 Map<String, dynamic> _$DeviceMininumResponseToJson(
