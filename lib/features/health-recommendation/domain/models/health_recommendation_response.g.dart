@@ -21,3 +21,5 @@ Map<String, dynamic> _$HealthRecommendationResponseToJson(
   'title': instance.title,
   'description': instance.description,
 };
+
+

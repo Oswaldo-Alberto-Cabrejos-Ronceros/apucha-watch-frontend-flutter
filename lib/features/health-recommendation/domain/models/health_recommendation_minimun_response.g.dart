@@ -13,3 +13,4 @@ _$HealthRecommendationMinimunResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$HealthRecommendationMinimunResponseToJson(
   HealthRecommendationMinimunResponse instance,
 ) => <String, dynamic>{'id': instance.id};
+
