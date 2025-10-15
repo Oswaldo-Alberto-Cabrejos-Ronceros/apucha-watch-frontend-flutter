@@ -9,6 +9,7 @@ class CaredProfileResponse {
   final String name;
   final String lastname;
   final String userType;
+  final String? deviceToken;
   final DateTime createAt;
   final DateTime? updateAt;
   final DateTime? deleteAt;
@@ -20,6 +21,7 @@ class CaredProfileResponse {
     required this.lastname,
     required this.userType,
     required this.createAt,
+    this.deviceToken,
     this.updateAt,
     this.deleteAt,
   });

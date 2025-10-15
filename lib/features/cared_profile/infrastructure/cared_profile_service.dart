@@ -1,4 +1,5 @@
 import 'package:apucha_watch_movil/core/api_client/api_client.dart';
+import 'package:apucha_watch_movil/features/cared_profile/domain/models/assing_token_device_request.dart';
 import 'package:apucha_watch_movil/features/cared_profile/domain/models/cared_profile_request.dart';
 import 'package:apucha_watch_movil/features/cared_profile/domain/models/cared_profile_response.dart';
 import 'package:dio/dio.dart';
@@ -50,28 +51,58 @@ class CaredProfileService {
       return null;
     } on DioException catch (e) {
       // ignore: avoid_print
-      print("Error al obtener perfil cuidado: ${e.response?.data ?? e.message}");
+      print(
+        "Error al obtener perfil cuidado: ${e.response?.data ?? e.message}",
+      );
       return null;
     }
   }
 
   Future<CaredProfileResponse?> findByUserId(String userId) async {
     try {
-      final response = await apiClient.dio.get('/cared-profile/by-user/$userId');
+      final response = await apiClient.dio.get(
+        '/cared-profile/by-user/$userId',
+      );
       if (response.statusCode == 200) {
         return CaredProfileResponse.fromJson(response.data);
       }
       return null;
     } on DioException catch (e) {
       // ignore: avoid_print
-      print("Error al obtener perfil por userId: ${e.response?.data ?? e.message}");
+      print(
+        "Error al obtener perfil por userId: ${e.response?.data ?? e.message}",
+      );
+      return null;
+    }
+  }
+
+  Future<CaredProfileResponse?> assignTokenDevice(
+    AssingTokenDeviceRequest assingTokenDeviceRequest,
+  ) async {
+    try {
+      final response = await apiClient.dio.post(
+        '/cared-profile/assign-token-device',
+        data: assingTokenDeviceRequest.toJson(),
+      );
+      if (response.statusCode == 200) {
+        print('enviado');
+        return CaredProfileResponse.fromJson(response.data);
+      }
+      return null;
+    } on DioException catch (e) {
+      // ignore: avoid_print
+      print(
+        "Error asignar el token device al usuario: ${e.response?.data ?? e.message}",
+      );
       return null;
     }
   }
 
   // Update
   Future<CaredProfileResponse?> update(
-      int id, CaredProfileRequest request) async {
+    int id,
+    CaredProfileRequest request,
+  ) async {
     try {
       final response = await apiClient.dio.patch(
         '/cared-profile/$id',
@@ -83,7 +114,9 @@ class CaredProfileService {
       return null;
     } on DioException catch (e) {
       // ignore: avoid_print
-      print("Error al actualizar perfil cuidado: ${e.response?.data ?? e.message}");
+      print(
+        "Error al actualizar perfil cuidado: ${e.response?.data ?? e.message}",
+      );
       return null;
     }
   }
@@ -94,7 +127,9 @@ class CaredProfileService {
       await apiClient.dio.delete('/cared-profile/$id');
     } on DioException catch (e) {
       // ignore: avoid_print
-      print("Error al eliminar perfil cuidado: ${e.response?.data ?? e.message}");
+      print(
+        "Error al eliminar perfil cuidado: ${e.response?.data ?? e.message}",
+      );
       throw Exception("Error en petición: ${e.response?.data ?? e.message}");
     }
   }
@@ -105,7 +140,9 @@ class CaredProfileService {
       await apiClient.dio.patch('/cared-profile/restore/$id');
     } on DioException catch (e) {
       // ignore: avoid_print
-      print("Error al restaurar perfil cuidado: ${e.response?.data ?? e.message}");
+      print(
+        "Error al restaurar perfil cuidado: ${e.response?.data ?? e.message}",
+      );
       throw Exception("Error en petición: ${e.response?.data ?? e.message}");
     }
   }

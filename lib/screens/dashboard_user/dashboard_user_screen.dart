@@ -1,5 +1,6 @@
 import 'package:apucha_watch_movil/core/socket_io_client/socket_io_client.dart';
 import 'package:apucha_watch_movil/features/auth/presentation/provider/session_data_provider.dart';
+import 'package:apucha_watch_movil/features/cared_profile/domain/models/assing_token_device_request.dart';
 import 'package:apucha_watch_movil/features/cared_profile/domain/models/cared_profile_response.dart';
 import 'package:apucha_watch_movil/features/cared_profile/presentation/provider/cared_profile_service_provider.dart';
 import 'package:apucha_watch_movil/features/cared_senior_citizen/presentation/provider/cared_senior_citizen_service_provider.dart';
@@ -10,6 +11,7 @@ import 'package:apucha_watch_movil/screens/dashboard_user/widgets/location_card.
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/senior_citizen_principal_card.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/status_device_card.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/vital_signs_card.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,6 +49,7 @@ class _DashboardUserScreenState extends ConsumerState<DashboardUserScreen> {
     await _fetchCaredProfile();
     await _fetchSeniorCitizenData();
     await _fetchVitalSigns();
+    await _assingDeviceToken();
   }
 
   @override
@@ -54,6 +57,35 @@ class _DashboardUserScreenState extends ConsumerState<DashboardUserScreen> {
     sockedIoClient.disconnect();
     sockedIoClient.dispose();
     super.dispose();
+  }
+
+  //metodo para pedir permisos para enviar
+  Future<void> _assingDeviceToken() async {
+    try {
+      if (_caredProfile == null) {
+        throw Exception('Cared profile no encontrado');
+      }
+      if (_caredProfile?.deviceToken != null) {
+        return;
+      }
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+      //solicitamos permisos
+      await messaging.requestPermission();
+      String? token = await messaging.getToken();
+      if (token != null) {
+        final caredProfileService = ref.read(caredProfileServiceProvider);
+        AssingTokenDeviceRequest request = AssingTokenDeviceRequest(
+          userId: _caredProfile!.userId,
+          deviceToken: token,
+        );
+        print('request: ${request.toJson()}');
+        await caredProfileService.assignTokenDevice(request);
+        print('Token enviado $token');
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print('Error al asignar deviceToken $e');
+    }
   }
 
   //metodo para recibir signos vitales
@@ -70,7 +102,7 @@ class _DashboardUserScreenState extends ConsumerState<DashboardUserScreen> {
       if (token == '') {
         throw Exception('Token no encontrado en sessionDataProvider');
       }
-      sockedIoClient.connect('http://apucha-watch-backend-1094750444303.us-west1.run.app', token: token);
+      sockedIoClient.connect('http://10.0.2.2:3000', token: token);
 
       if (_seniorCitizenProfile == null) {
         throw Exception('Perfil de adulto mayor no encontrado');

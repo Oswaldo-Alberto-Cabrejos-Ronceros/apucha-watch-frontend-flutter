@@ -15,6 +15,7 @@ CaredProfileResponse _$CaredProfileResponseFromJson(
   lastname: json['lastname'] as String,
   userType: json['userType'] as String,
   createAt: DateTime.parse(json['createAt'] as String),
+  deviceToken: json['deviceToken'] as String?,
   updateAt: json['updateAt'] == null
       ? null
       : DateTime.parse(json['updateAt'] as String),
@@ -31,6 +32,7 @@ Map<String, dynamic> _$CaredProfileResponseToJson(
   'name': instance.name,
   'lastname': instance.lastname,
   'userType': instance.userType,
+  'deviceToken': instance.deviceToken,
   'createAt': instance.createAt.toIso8601String(),
   'updateAt': instance.updateAt?.toIso8601String(),
   'deleteAt': instance.deleteAt?.toIso8601String(),
