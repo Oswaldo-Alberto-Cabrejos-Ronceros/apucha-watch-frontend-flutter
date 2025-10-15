@@ -48,3 +48,6 @@ app.*.map.json
 .env
 ios/Config/Debug.xcconfig
 ios/Config/Release.xcconfig
+
+#node module
+/node_modules
