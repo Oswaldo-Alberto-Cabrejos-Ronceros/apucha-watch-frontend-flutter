@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "851507136909",
+    "project_id": "apuchawatch",
+    "storage_bucket": "apuchawatch.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851507136909:android:dcf7967f17912bf85c95c4",
+        "android_client_info": {
+          "package_name": "com.example.apucha_watch_movil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsO_t1c1Hv8Uhq1QaKc07wTHZ8ctd8a4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

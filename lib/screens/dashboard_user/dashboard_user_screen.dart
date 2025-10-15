@@ -70,7 +70,7 @@ class _DashboardUserScreenState extends ConsumerState<DashboardUserScreen> {
       if (token == '') {
         throw Exception('Token no encontrado en sessionDataProvider');
       }
-      sockedIoClient.connect('http://localhost:3000', token: token);
+      sockedIoClient.connect('http://apucha-watch-backend-1094750444303.us-west1.run.app', token: token);
 
       if (_seniorCitizenProfile == null) {
         throw Exception('Perfil de adulto mayor no encontrado');
