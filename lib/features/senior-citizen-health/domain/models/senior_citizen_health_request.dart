@@ -12,6 +12,9 @@ class SeniorCitizenHealthRequest {
   final int? glucoseLevel;
   final bool fallDetected;
   final bool medicationTaken;
+  final DateTime? timeStamp;
+  final int? deviceId;
+  final int? currentProfileId;
 
   SeniorCitizenHealthRequest({
     required this.name,
@@ -22,7 +25,18 @@ class SeniorCitizenHealthRequest {
     this.glucoseLevel,
     required this.fallDetected,
     required this.medicationTaken,
+    this.timeStamp,
+    this.deviceId,
+    this.currentProfileId,
   });
+
+  static DateTime? _fromJson(dynamic v) {
+    if (v == null) return null;
+    if (v is int) return DateTime.fromMillisecondsSinceEpoch(v).toUtc();
+    return DateTime.parse(v as String).toUtc();
+  }
+
+  static dynamic _toJson(DateTime? d) => d?.toUtc().toIso8601String();
 
   factory SeniorCitizenHealthRequest.fromJson(Map<String, dynamic> json) =>
       _$SeniorCitizenHealthRequestFromJson(json);

@@ -4,7 +4,7 @@ part 'senior_citizen_health_minimum_response.g.dart';
 
 @JsonSerializable()
 class SeniorCitizenHealthMinimumResponse {
-  final String id;
+  final int id;
 
   SeniorCitizenHealthMinimumResponse({required this.id});
 
@@ -13,3 +13,5 @@ class SeniorCitizenHealthMinimumResponse {
 
   Map<String, dynamic> toJson() => _$SeniorCitizenHealthMinimumResponseToJson(this);
 }
+
+

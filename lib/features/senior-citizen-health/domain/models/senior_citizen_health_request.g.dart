@@ -6,7 +6,8 @@ part of 'senior_citizen_health_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SeniorCitizenHealthRequest _$SeniorCitizenHealthRequestFromJson(Map<String, dynamic> json) =>
+SeniorCitizenHealthRequest _$SeniorCitizenHealthRequestFromJson(
+        Map<String, dynamic> json) =>
     SeniorCitizenHealthRequest(
       name: json['name'] as String,
       age: json['age'] as int,
@@ -16,9 +17,13 @@ SeniorCitizenHealthRequest _$SeniorCitizenHealthRequestFromJson(Map<String, dyna
       glucoseLevel: json['glucoseLevel'] as int?,
       fallDetected: json['fallDetected'] as bool,
       medicationTaken: json['medicationTaken'] as bool,
+      timeStamp: SeniorCitizenHealthRequest._fromJson(json['timeStamp']),
+      deviceId: json['deviceId'] as int?,
+      currentProfileId: json['currentProfileId'] as int?,
     );
 
-Map<String, dynamic> _$SeniorCitizenHealthRequestToJson(SeniorCitizenHealthRequest instance) =>
+Map<String, dynamic> _$SeniorCitizenHealthRequestToJson(
+        SeniorCitizenHealthRequest instance) =>
     <String, dynamic>{
       'name': instance.name,
       'age': instance.age,
@@ -28,4 +33,7 @@ Map<String, dynamic> _$SeniorCitizenHealthRequestToJson(SeniorCitizenHealthReque
       'glucoseLevel': instance.glucoseLevel,
       'fallDetected': instance.fallDetected,
       'medicationTaken': instance.medicationTaken,
+      'timeStamp': SeniorCitizenHealthRequest._toJson(instance.timeStamp),
+      'deviceId': instance.deviceId,
+      'currentProfileId': instance.currentProfileId,
     };
