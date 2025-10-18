@@ -65,22 +65,22 @@ class _DashboardUserScreenState extends ConsumerState<DashboardUserScreen> {
       if (_caredProfile == null) {
         throw Exception('Cared profile no encontrado');
       }
-      if (_caredProfile?.deviceToken != null) {
+
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+      String? token = await messaging.getToken();
+      if (_caredProfile?.deviceToken == token) {
         return;
       }
-      FirebaseMessaging messaging = FirebaseMessaging.instance;
       //solicitamos permisos
       await messaging.requestPermission();
-      String? token = await messaging.getToken();
+
       if (token != null) {
         final caredProfileService = ref.read(caredProfileServiceProvider);
         AssingTokenDeviceRequest request = AssingTokenDeviceRequest(
           userId: _caredProfile!.userId,
           deviceToken: token,
         );
-        print('request: ${request.toJson()}');
         await caredProfileService.assignTokenDevice(request);
-        print('Token enviado $token');
       }
     } catch (e) {
       // ignore: avoid_print
