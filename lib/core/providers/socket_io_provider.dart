@@ -3,7 +3,7 @@ import 'package:apucha_watch_movil/core/socket_io_client/socket_io_client.dart';
 
 final socketClientProvider = Provider<SocketIOClient>((ref) {
   final socketClient = SocketIOClient();
-  socketClient.connect('http://10.0.2.2:3000');
+  socketClient.connect('https://apucha-watch-backend-1094750444303.us-west1.run.app');
   ref.onDispose(() {
     socketClient.dispose();
   });

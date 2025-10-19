@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SessionDataNotifier extends Notifier<Map<String, dynamic>?> {
   @override
-  Map<String, String?> build() {
+  Map<String, dynamic> build() {
     return {};
   }
 
@@ -16,6 +16,10 @@ class SessionDataNotifier extends Notifier<Map<String, dynamic>?> {
 
   void setDeviceId(int deviceId) {
     state = {...?state, 'deviceId': deviceId};
+  }
+
+  void setSeniorCitizenProfileId(int seniorCitizenProfileId) {
+    state = {...?state, 'seniorCitizenProfileId': seniorCitizenProfileId};
   }
 
   void cleanDeviceId() {

@@ -193,9 +193,9 @@ class _AddHealthConditionAlertDialogState
               await _fetchSendHealthCondition();
               if (!mounted) return;
               if (!_loadingSendHealthCondition &&
-                  _errorMessagueSendHealthCondition != null) {
+                  _errorMessagueSendHealthCondition == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: const Text('Enviado correctamente')),
+                  SnackBar(content: const Text('Agregado correctamente')),
                 );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(

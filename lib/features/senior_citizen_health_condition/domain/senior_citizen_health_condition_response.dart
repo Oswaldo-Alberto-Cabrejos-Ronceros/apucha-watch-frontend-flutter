@@ -6,16 +6,16 @@ part 'senior_citizen_health_condition_response.g.dart';
 @JsonSerializable()
 class SeniorCitizenHealthConditionResponse {
   final int id;
-  final SeniorCitizenProfileMinimunResponse seniorCitizenProfileMinimunResponse;
-  final HealthConditionMinimunResponse healthConditionMinimunResponse;
+  final SeniorCitizenProfileMinimunResponse seniorCitizenProfile;
+  final HealthConditionMinimunResponse healthCondition;
   final DateTime diagnosisDate;
   final String severity;
   final DateTime? createAt;
 
   SeniorCitizenHealthConditionResponse({
     required this.id,
-    required this.seniorCitizenProfileMinimunResponse,
-    required this.healthConditionMinimunResponse,
+    required this.seniorCitizenProfile,
+    required this.healthCondition,
     required this.diagnosisDate,
     required this.severity,
     this.createAt,

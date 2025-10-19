@@ -1,18 +1,30 @@
+import 'package:apucha_watch_movil/features/auth/presentation/provider/session_data_provider.dart';
 import 'package:apucha_watch_movil/screens/health_conditions_user/widgets/add_health_condition_alert_dialog.dart';
 import 'package:apucha_watch_movil/screens/health_conditions_user/widgets/health_condition_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HealthConditionsUserScreen extends StatefulWidget {
+class HealthConditionsUserScreen extends ConsumerStatefulWidget {
   const HealthConditionsUserScreen({super.key});
 
   @override
-  State<HealthConditionsUserScreen> createState() =>
+  ConsumerState<HealthConditionsUserScreen> createState() =>
       _HealthConditionsUserScreenState();
 }
 
 class _HealthConditionsUserScreenState
-    extends State<HealthConditionsUserScreen> {
-  //error message
+    extends ConsumerState<HealthConditionsUserScreen> {
+  //seniorCitizenProfileId
+  int? _seniorCitizenProfileId;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final sessionData = ref.watch(sessionDataProvider);
+    final seniorCitizenProfileId = sessionData?['seniorCitizenProfileId'];
+    _seniorCitizenProfileId = seniorCitizenProfileId;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,7 +42,9 @@ class _HealthConditionsUserScreenState
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (context) => AddHealthConditionAlertDialog( seniorCitizenId: 1),
+                  builder: (context) => AddHealthConditionAlertDialog(
+                    seniorCitizenId: _seniorCitizenProfileId!,
+                  ),
                 );
               },
               child: Icon(Icons.add),
