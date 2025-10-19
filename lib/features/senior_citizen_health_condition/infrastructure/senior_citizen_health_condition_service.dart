@@ -2,6 +2,7 @@ import 'package:apucha_watch_movil/core/api_client/api_client.dart';
 import 'package:apucha_watch_movil/features/senior_citizen_health_condition/domain/senior_citizen_health_condition_request.dart';
 import 'package:apucha_watch_movil/features/senior_citizen_health_condition/domain/senior_citizen_health_condition_response.dart';
 import 'package:apucha_watch_movil/features/senior_citizen_health_condition/domain/senior_citizen_health_condition_update_request.dart';
+import 'package:apucha_watch_movil/features/senior_citizen_health_condition/domain/senior_citizen_health_condition_with_health_condition_response.dart';
 import 'package:dio/dio.dart';
 
 class SeniorCitizenHealthConditionService {
@@ -40,6 +41,30 @@ class SeniorCitizenHealthConditionService {
         final List<dynamic> data = response.data;
         return data
             .map((json) => SeniorCitizenHealthConditionResponse.fromJson(json))
+            .toList();
+      } else {
+        throw Exception('Error en peticion: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      throw Exception("Error en petición: ${e.response?.data ?? e.message}");
+    }
+  }
+
+  Future<List<SeniorCitizenHealthConditionWithHealthConditionResponse>>
+  findAllBySeniorCitizenId(int seniorCitizenId) async {
+    try {
+      final response = await apiClient.dio.get(
+        '/senior-citizen-health-condition/senior-citizen/$seniorCitizenId',
+      );
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data;
+        return data
+            .map(
+              (json) =>
+                  SeniorCitizenHealthConditionWithHealthConditionResponse.fromJson(
+                    json,
+                  ),
+            )
             .toList();
       } else {
         throw Exception('Error en peticion: ${response.statusCode}');
