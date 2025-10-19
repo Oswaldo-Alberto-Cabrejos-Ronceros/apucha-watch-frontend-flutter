@@ -1,5 +1,8 @@
+import 'package:apucha_watch_movil/core/models/menu_item.dart';
 import 'package:apucha_watch_movil/features/health-condition/domain/models/health_condition_response.dart';
 import 'package:apucha_watch_movil/features/health-condition/presentation/providers/health_condition_provider.dart';
+import 'package:apucha_watch_movil/features/senior_citizen_health_condition/domain/senior_citizen_health_condition_request.dart';
+import 'package:apucha_watch_movil/features/senior_citizen_health_condition/presentation/providers/senior_citizen_health_condition_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,13 +23,20 @@ class _AddHealthConditionAlertDialogState
   int condition = -1;
   String severity = '';
   DateTime? diagnosisDate;
-  final List<String> severities = ['Leve', 'Moderada', 'Severa'];
+  final List<MenuItem> severities = [
+    MenuItem(value: 'LEVE', label: 'Leve'),
+    MenuItem(value: 'MODERADA', label: 'Moderada'),
+    MenuItem(value: 'SEVERA', label: 'Severa'),
+  ];
   //error message
   String? _errorMessague;
   bool _loading = false;
   List<HealthConditionResponse> _conditions = [];
   //for date picket
   final TextEditingController _dateController = TextEditingController();
+  //for send
+  String? _errorMessagueSendHealthCondition;
+  bool _loadingSendHealthCondition = false;
 
   @override
   void didChangeDependencies() {
@@ -56,6 +66,43 @@ class _AddHealthConditionAlertDialogState
       if (mounted) {
         setState(() {
           _loading = false;
+        });
+      }
+    }
+  }
+
+  //para enviar condicion
+  Future<void> _fetchSendHealthCondition() async {
+    if (!mounted) return;
+    setState(() {
+      _loadingSendHealthCondition = true;
+      _errorMessagueSendHealthCondition = null;
+    });
+    try {
+      final seniorHealthConditionService = ref.read(
+        seniorCitizenHealthConditionProvider,
+      );
+      SeniorCitizenHealthConditionRequest request =
+          SeniorCitizenHealthConditionRequest(
+            seniorCitizenProfileId: widget.seniorCitizenId,
+            healthConditionId: condition,
+            diagnosisDate: diagnosisDate!,
+            severity: severity,
+          );
+      final result = await seniorHealthConditionService.create(request);
+      if (result == null) {
+        throw Exception('Error al enviar condicion');
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _errorMessagueSendHealthCondition =
+            'Error al enviar condiciones de salud $e';
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _loadingSendHealthCondition = false;
         });
       }
     }
@@ -115,7 +162,12 @@ class _AddHealthConditionAlertDialogState
           DropdownButtonFormField<String>(
             decoration: InputDecoration(labelText: 'Severidad'),
             items: severities
-                .map((sev) => DropdownMenuItem(value: sev, child: Text(sev)))
+                .map(
+                  (item) => DropdownMenuItem(
+                    value: item.value,
+                    child: Text(item.label),
+                  ),
+                )
                 .toList(),
             onChanged: (value) {
               setState(() {
@@ -123,6 +175,7 @@ class _AddHealthConditionAlertDialogState
               });
             },
           ),
+          if (_loadingSendHealthCondition) const CircularProgressIndicator(),
         ],
       ),
       actions: [
@@ -133,12 +186,34 @@ class _AddHealthConditionAlertDialogState
           child: Text('Cancelar'),
         ),
         ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             if (condition != -1 &&
                 diagnosisDate != null &&
                 severity.isNotEmpty) {
+              await _fetchSendHealthCondition();
+              if (!mounted) return;
+              if (!_loadingSendHealthCondition &&
+                  _errorMessagueSendHealthCondition != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: const Text('Enviado correctamente')),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Error correctamente $_errorMessagueSendHealthCondition',
+                    ),
+                  ),
+                );
+              }
               Navigator.of(context).pop();
-            } else {}
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Por favor llene todos los campos'),
+                ),
+              );
+            }
           },
           child: Text('Guardar'),
         ),
