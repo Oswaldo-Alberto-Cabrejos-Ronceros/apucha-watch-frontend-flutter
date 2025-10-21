@@ -103,7 +103,7 @@ class _DashboardUserScreenState extends ConsumerState<DashboardUserScreen> {
         throw Exception('Token no encontrado en sessionDataProvider');
       }
       sockedIoClient.connect(
-        'https://apucha-watch-backend-1094750444303.us-west1.run.app',
+        'http://10.0.0.2:3000',
         token: token,
       );
 

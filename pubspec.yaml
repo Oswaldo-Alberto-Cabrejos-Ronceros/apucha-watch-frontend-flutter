@@ -51,6 +51,8 @@ dependencies:
   firebase_core: ^4.2.0
   firebase_messaging: ^16.0.3
   flutter_local_notifications: ^19.4.2
+  flutter_launcher_icons: ^0.14.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -107,3 +109,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_launcher_icons:
+  image_path_android: "assets/icons/apucha_watch_icon.png"
+  image_path_ios: "assets/icons/apucha_watch_icon.png"
+  android: true
+  ios: true
