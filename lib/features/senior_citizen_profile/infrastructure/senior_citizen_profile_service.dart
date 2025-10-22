@@ -1,6 +1,7 @@
 import 'package:apucha_watch_movil/core/api_client/api_client.dart';
 import 'package:apucha_watch_movil/features/senior_citizen_profile/domain/models/senior_citizen_profile_response.dart';
 import 'package:apucha_watch_movil/features/senior_citizen_profile/domain/models/senior_citizen_request.dart';
+import 'package:apucha_watch_movil/features/senior_citizen_profile/domain/models/senior_citizen_update_request.dart';
 import 'package:dio/dio.dart';
 
 class SeniorCitizenProfileService {
@@ -64,7 +65,7 @@ class SeniorCitizenProfileService {
 
   Future<SeniorCitizenProfileResponse?> update(
     int id,
-    SeniorCitizenRequest seniorCitizenRequest,
+    SeniorCitizenUpdateRequest seniorCitizenRequest,
   ) async {
     try {
       final response = await apiClient.dio.put(
