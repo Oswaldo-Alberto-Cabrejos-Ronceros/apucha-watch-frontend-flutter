@@ -2,6 +2,7 @@ import 'package:apucha_watch_movil/core/api_client/api_client.dart';
 import 'package:apucha_watch_movil/features/cared_profile/domain/models/assing_token_device_request.dart';
 import 'package:apucha_watch_movil/features/cared_profile/domain/models/cared_profile_request.dart';
 import 'package:apucha_watch_movil/features/cared_profile/domain/models/cared_profile_response.dart';
+import 'package:apucha_watch_movil/features/cared_profile/domain/models/cared_profile_update_request.dart';
 import 'package:dio/dio.dart';
 
 class CaredProfileService {
@@ -101,7 +102,7 @@ class CaredProfileService {
   // Update
   Future<CaredProfileResponse?> update(
     int id,
-    CaredProfileRequest request,
+    CaredProfileUpdateRequest request,
   ) async {
     try {
       final response = await apiClient.dio.patch(

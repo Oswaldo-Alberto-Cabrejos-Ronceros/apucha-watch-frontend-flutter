@@ -48,8 +48,8 @@ class _AddHealthConditionAlertDialogState
   Future<void> _fetchHealthConditions() async {
     if (!mounted) return;
     setState(() {
-      _loading = true;
-      _errorMessague = null;
+
+
     });
     try {
       final healthConditionService = ref.read(healthConditionServiceProvider);
