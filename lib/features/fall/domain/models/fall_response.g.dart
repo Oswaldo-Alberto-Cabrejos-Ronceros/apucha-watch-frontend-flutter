@@ -7,7 +7,7 @@ part of 'fall_response.dart';
 // **************************************************************************
 
 FallResponse _$FallResponseFromJson(Map<String, dynamic> json) => FallResponse(
-  id: json['id'] as int,
+  id: (json['id'] as num).toInt(),
   timestamp: DateTime.parse(json['timestamp'] as String),
 );
 
