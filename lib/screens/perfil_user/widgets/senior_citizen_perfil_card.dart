@@ -3,15 +3,19 @@ import 'package:flutter/material.dart';
 class SeniorCitizenPerfilCard extends StatelessWidget {
   const SeniorCitizenPerfilCard({
     super.key,
+    required this.seniorCitizenId,
     required this.names,
     required this.lastnames,
     required this.age,
     required this.birthDate,
+    required this.onEditar,
   });
+  final int seniorCitizenId;
   final String names;
   final String lastnames;
   final int age;
   final DateTime birthDate;
+  final Function(int, String, String, DateTime) onEditar;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,9 @@ class SeniorCitizenPerfilCard extends StatelessWidget {
             ],
           ),
           trailing: FloatingActionButton.small(
-            onPressed: () {},
+            onPressed: () {
+              onEditar(seniorCitizenId, names, lastnames, birthDate);
+            },
             child: Icon(Icons.edit),
           ),
         ),

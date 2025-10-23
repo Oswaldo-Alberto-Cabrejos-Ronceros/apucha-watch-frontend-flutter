@@ -7,6 +7,8 @@ import 'package:apucha_watch_movil/features/senior_citizen_profile/presentation/
 import 'package:apucha_watch_movil/screens/perfil_user/widgets/carer_perfil_card.dart';
 import 'package:apucha_watch_movil/screens/perfil_user/widgets/confirm_out_session_alert_dialog.dart';
 import 'package:apucha_watch_movil/screens/perfil_user/widgets/senior_citizen_perfil_card.dart';
+import 'package:apucha_watch_movil/screens/perfil_user/widgets/update_cared_perfil_alert_dialog.dart';
+import 'package:apucha_watch_movil/screens/perfil_user/widgets/update_senior_citizen_alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -120,6 +122,42 @@ class _PerfilUserScreenState extends ConsumerState<PerfilUserScreen> {
     }
   }
 
+  //para abrir Modal cared prodile
+  Future<void> showModalEditCaredProfile(
+    int caredPerfilId,
+    String names,
+    String lastnames,
+  ) async {
+    await showDialog(
+      context: context,
+      builder: (context) => UpdateCaredPerfilAlertDialog(
+        caredProfileId: caredPerfilId,
+        caredNames: names,
+        caredLastnames: lastnames,
+      ),
+    );
+    await _fetchCaredProfile();
+  }
+
+  //para abri modal edit senior citizen
+  Future<void> showModalEditSeniorCitizen(
+    int seniorProfileId,
+    String names,
+    String lastnames,
+    DateTime birthdate,
+  ) async {
+    await showDialog(
+      context: context,
+      builder: (context) => UpdateSeniorCitizenAlertDialog(
+        seniorCitizenProfileId: seniorProfileId,
+        name: names,
+        lastname: lastnames,
+        birthdate: birthdate,
+      ),
+    );
+    await _fetchSeniorCitizenData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -147,8 +185,10 @@ class _PerfilUserScreenState extends ConsumerState<PerfilUserScreen> {
         _caredProfile == null && _loading
             ? const CircularProgressIndicator()
             : CarerPerfilCard(
+                caredPerfilId: _caredProfile!.id,
                 names: _caredProfile?.name ?? "",
                 lastnames: _caredProfile?.lastname ?? "",
+                onEditar: showModalEditCaredProfile,
               ),
         if (_errorMessague != null)
           Text(
@@ -162,6 +202,7 @@ class _PerfilUserScreenState extends ConsumerState<PerfilUserScreen> {
         _seniorCitizenProfile == null && _loadingSeniorCitizen
             ? const CircularProgressIndicator()
             : SeniorCitizenPerfilCard(
+                seniorCitizenId: _seniorCitizenProfile!.id,
                 names: _seniorCitizenProfile?.name ?? "",
                 lastnames: _seniorCitizenProfile?.lastname ?? "",
                 age: () {
@@ -179,6 +220,7 @@ class _PerfilUserScreenState extends ConsumerState<PerfilUserScreen> {
                   return 0;
                 }(),
                 birthDate: _seniorCitizenProfile?.birthdate ?? DateTime.now(),
+                onEditar: showModalEditSeniorCitizen,
               ),
         if (_errorMessagueSeniorCitizen != null)
           Text(

@@ -28,6 +28,12 @@ class _UpdateCaredPerfilAlertDialogState
   bool _loading = false;
   String? _errorMessague;
   //funcion para editar perfil
+  @override
+  void initState() {
+    super.initState();
+    _caredLastnamesController.text = widget.caredLastnames;
+    _caredNamesController.text = widget.caredNames;
+  }
 
   Future<void> _sendEditPerfil() async {
     if (!mounted) return;
@@ -69,8 +75,9 @@ class _UpdateCaredPerfilAlertDialogState
       title: Text('Editar datos de perfil'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        spacing: 8,
         children: [
-          Text('Nombres'),
+          Text('Nombres', style: TextStyle(fontWeight: FontWeight.bold)),
           TextField(
             decoration: InputDecoration(
               labelText: 'Nombres',
@@ -78,7 +85,7 @@ class _UpdateCaredPerfilAlertDialogState
             ),
             controller: _caredNamesController,
           ),
-          Text('Apellidos'),
+          Text('Apellidos', style: TextStyle(fontWeight: FontWeight.bold)),
           TextField(
             decoration: InputDecoration(
               labelText: 'Apellidos',

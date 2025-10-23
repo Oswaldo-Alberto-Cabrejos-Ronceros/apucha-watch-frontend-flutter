@@ -32,6 +32,14 @@ class _UpdateSeniorCitizenAlertDialogState
   bool _loading = false;
   String? _errorMessague;
 
+  @override
+  void initState() {
+    super.initState();
+    _seniorLastnamesController.text = widget.lastname;
+    _seniorNamesController.text = widget.name;
+    _birthdateController.text = widget.birthdate.toString();
+  }
+
   Future<void> _sendEditSeniorCitizen() async {
     if (!mounted) return;
     setState(() {
@@ -77,8 +85,9 @@ class _UpdateSeniorCitizenAlertDialogState
       title: Text('Editar datos de adulto mayor'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        spacing: 8,
         children: [
-          Text('Nombres'),
+          Text('Nombres', style: TextStyle(fontWeight: FontWeight.bold)),
           TextField(
             decoration: InputDecoration(
               labelText: 'Nombres',
@@ -86,7 +95,7 @@ class _UpdateSeniorCitizenAlertDialogState
             ),
             controller: _seniorNamesController,
           ),
-          Text('Apellidos'),
+          Text('Apellidos', style: TextStyle(fontWeight: FontWeight.bold)),
           TextField(
             decoration: InputDecoration(
               labelText: 'Apellidos',
@@ -94,9 +103,13 @@ class _UpdateSeniorCitizenAlertDialogState
             ),
             controller: _seniorLastnamesController,
           ),
+          Text(
+            'Fecha de nacimiento',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           TextFormField(
             decoration: InputDecoration(
-              labelText: 'Fecha de Diagnóstico',
+              labelText: 'Fecha de Nacimiento',
               suffixIcon: Icon(Icons.calendar_today),
             ),
             readOnly: true,
@@ -122,7 +135,7 @@ class _UpdateSeniorCitizenAlertDialogState
               _errorMessague ?? '',
               style: const TextStyle(color: Colors.red),
             ),
-                      ElevatedButton(
+          ElevatedButton(
             onPressed: () async {
               await _sendEditSeniorCitizen();
               if (!mounted) return;
