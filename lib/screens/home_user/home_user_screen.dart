@@ -2,6 +2,7 @@ import 'package:apucha_watch_movil/screens/alerts_user/alerts_user_screen.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/dashboard_user_screen.dart';
 import 'package:apucha_watch_movil/screens/health_conditions_user/health_conditions_user_screen.dart';
 import 'package:apucha_watch_movil/screens/perfil_user/perfil_user_screen.dart';
+import 'package:apucha_watch_movil/screens/stadistics_vital_signs/stadistics_vital_signs_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -15,14 +16,14 @@ class HomeUserScreen extends StatefulWidget {
 
 class _HomeUserScreenState extends State<HomeUserScreen> {
   //inicializamos el plugin de notificaciones locales
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
     super.initState();
     //cuando la app esta abierta
-        FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // ignore: avoid_print
       print('Mensaje recibido: ${message.notification?.title}');
       _showNotification(message);
@@ -36,27 +37,26 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     });
   }
 
-//funcion para mostrar las notificaciones locales
-Future<void> _showNotification(RemoteMessage messague) async {
-  const AndroidNotificationDetails androidNotificationDetails =
-      AndroidNotificationDetails(
-        'default_channel',
-        'Notificaciones generales',
-        channelDescription: 'Canal de notificaciones generales',
-        importance: Importance.max,
-        priority: Priority.high,
-      );
-  const NotificationDetails notificationDetails = NotificationDetails(
-    android: androidNotificationDetails,
-  );
-  await flutterLocalNotificationsPlugin.show(
-    DateTime.now().millisecondsSinceEpoch.remainder(100000),
-    messague.notification?.title ?? 'Sin Titulo',
-    messague.notification?.body ?? 'Sin cuerpo',
-    notificationDetails,
-  );
-}
-
+  //funcion para mostrar las notificaciones locales
+  Future<void> _showNotification(RemoteMessage messague) async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+          'default_channel',
+          'Notificaciones generales',
+          channelDescription: 'Canal de notificaciones generales',
+          importance: Importance.max,
+          priority: Priority.high,
+        );
+    const NotificationDetails notificationDetails = NotificationDetails(
+      android: androidNotificationDetails,
+    );
+    await flutterLocalNotificationsPlugin.show(
+      DateTime.now().millisecondsSinceEpoch.remainder(100000),
+      messague.notification?.title ?? 'Sin Titulo',
+      messague.notification?.body ?? 'Sin cuerpo',
+      notificationDetails,
+    );
+  }
 
   //for index of bottom navigation bar
   int _selectedIndex = 0;
@@ -64,6 +64,7 @@ Future<void> _showNotification(RemoteMessage messague) async {
     DashboardUserScreen(),
     HealthConditionsUserScreen(),
     AlertsUserScreen(),
+    StadisticsVitalSignsScreen(),
     PerfilUserScreen(),
   ];
   @override
@@ -100,6 +101,10 @@ Future<void> _showNotification(RemoteMessage messague) async {
           NavigationDestination(
             icon: Icon(Icons.notifications),
             label: 'Alertas',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.bar_chart_rounded),
+            label: 'Metricas',
           ),
           NavigationDestination(icon: Icon(Icons.person), label: 'Perfil'),
         ],
