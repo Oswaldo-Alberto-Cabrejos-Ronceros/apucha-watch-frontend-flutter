@@ -2,8 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartOxygenation extends StatefulWidget {
-  const LineChartOxygenation({super.key});
-
+  const LineChartOxygenation({super.key, required this.resolution});
+  final String resolution;
   @override
   State<LineChartOxygenation> createState() => _LineChartOxygenationState();
 }
@@ -22,7 +22,12 @@ class _LineChartOxygenationState extends State<LineChartOxygenation> {
               top: 24,
               bottom: 12,
             ),
-            child: LineChart(dayData()),
+            child: LineChart(switch (widget.resolution) {
+              'TREINTA_SEG' => hourData(),
+              'UN_MIN' => twelveHoursData(),
+              'CINCO_MIN' => dayData(),
+              _ => hourData(),
+            }),
           ),
         ),
       ],

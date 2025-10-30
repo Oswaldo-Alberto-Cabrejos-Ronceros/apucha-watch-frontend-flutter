@@ -57,7 +57,7 @@ class _StadisticsVitalSignsScreenState
         Text('Ritmo cardiaco'),
         LineChartHeartRate(resolution: resolution),
         Text('Oxigenación'),
-        LineChartOxygenation()
+        LineChartOxygenation(resolution: resolution),
       ],
     );
   }
