@@ -12,6 +12,7 @@ SeniorCitizenRequest _$SeniorCitizenRequestFromJson(
   name: json['name'] as String,
   lastname: json['lastname'] as String,
   birthdate: json['birthdate'] as String,
+  phone: json['phone'] as String,
   deviceId: (json['deviceId'] as num).toInt(),
 );
 
@@ -21,5 +22,6 @@ Map<String, dynamic> _$SeniorCitizenRequestToJson(
   'name': instance.name,
   'lastname': instance.lastname,
   'birthdate': instance.birthdate,
+  'phone': instance.phone,
   'deviceId': instance.deviceId,
 };
