@@ -7,9 +7,7 @@ import 'package:apucha_watch_movil/features/cared_senior_citizen/presentation/pr
 import 'package:apucha_watch_movil/features/senior_citizen_profile/domain/models/senior_citizen_profile_response.dart';
 import 'package:apucha_watch_movil/features/senior_citizen_profile/presentation/provider/senior_citizen_profile_service_provider.dart';
 import 'package:apucha_watch_movil/features/vitalsign/domain/models/vital_sign_minimun_response.dart';
-import 'package:apucha_watch_movil/screens/dashboard_user/widgets/location_card.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/senior_citizen_principal_card.dart';
-import 'package:apucha_watch_movil/screens/dashboard_user/widgets/status_device_card.dart';
 import 'package:apucha_watch_movil/screens/dashboard_user/widgets/vital_signs_card.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -275,11 +273,6 @@ class _DashboardUserScreenState extends ConsumerState<DashboardUserScreen> {
             _errorMessagueVitalSigns ?? 'Error al cargar signos vitales',
             style: const TextStyle(color: Colors.red),
           ),
-        LocationCard(
-          location: 'Av. Siempre Viva 123, Springfield',
-          ago: 'Hace 2 minutos',
-        ),
-        StatusDeviceCard(),
       ],
     );
   }
