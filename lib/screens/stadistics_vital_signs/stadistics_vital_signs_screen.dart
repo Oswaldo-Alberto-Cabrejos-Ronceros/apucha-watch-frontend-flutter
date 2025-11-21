@@ -1,5 +1,3 @@
-
-
 // ignore_for_file: unused_field
 
 import 'package:apucha_watch_movil/features/auth/presentation/provider/session_data_provider.dart';
@@ -52,7 +50,6 @@ class _StadisticsVitalSignsScreenState
     await _fetchSeniorCitizenData();
     await _fetchVitalSignsStats();
   }
-
 
   Future<void> _pickDate() async {
     final DateTime? picked = await showDatePicker(
@@ -160,8 +157,9 @@ class _StadisticsVitalSignsScreenState
       final String userId = sessionData?['userId'];
       if (userId == '') throw Exception('UserId no encontrado');
 
-      final caredSeniorCitizenService =
-          ref.read(caredSeniroCitizenServiceProvider);
+      final caredSeniorCitizenService = ref.read(
+        caredSeniroCitizenServiceProvider,
+      );
       final relations = await caredSeniorCitizenService.getAllByUserId(userId);
 
       if (relations.isEmpty) {
@@ -170,14 +168,16 @@ class _StadisticsVitalSignsScreenState
 
       final seniorCitizenId = relations.first.seniorCitizenProfile.id;
 
-      final seniorCitizenProfileService =
-          ref.read(seniorCitizenProfileServiceProvide);
+      final seniorCitizenProfileService = ref.read(
+        seniorCitizenProfileServiceProvide,
+      );
 
       final sessionDataNotifier = ref.watch(sessionDataProvider.notifier);
       sessionDataNotifier.setSeniorCitizenProfileId(seniorCitizenId);
 
-      final seniorCitizenProfile =
-          await seniorCitizenProfileService.findOne(seniorCitizenId);
+      final seniorCitizenProfile = await seniorCitizenProfileService.findOne(
+        seniorCitizenId,
+      );
 
       if (seniorCitizenProfile == null) {
         throw Exception('No se encontró perfil del adulto mayor');
@@ -210,18 +210,14 @@ class _StadisticsVitalSignsScreenState
 
         SizedBox(height: 16),
 
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Fecha seleccionada: ${_selectedDate.toLocal().toString().split(' ')[0]}",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
-            ElevatedButton(
-              onPressed: _pickDate,
-              child: Text("Cambiar Fecha"),
-            ),
+            ElevatedButton(onPressed: _pickDate, child: Text("Cambiar Fecha")),
           ],
         ),
 
@@ -231,16 +227,10 @@ class _StadisticsVitalSignsScreenState
           const Center(child: CircularProgressIndicator())
         else if (_errorMessage != null)
           Center(
-            child: Text(
-              _errorMessage!,
-              style: TextStyle(color: Colors.red),
-            ),
+            child: Text(_errorMessage!, style: TextStyle(color: Colors.red)),
           )
         else if (_stats == null)
-          const Center(
-            child: Text('No se encontraron datos para esa fecha.'),
-          )
-
+          const Center(child: Text('No se encontraron datos para esa fecha.'))
         else
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
