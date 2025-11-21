@@ -1,5 +1,7 @@
 
 
+// ignore_for_file: unused_field
+
 import 'package:apucha_watch_movil/features/auth/presentation/provider/session_data_provider.dart';
 import 'package:apucha_watch_movil/features/cared_profile/domain/models/cared_profile_response.dart';
 import 'package:apucha_watch_movil/features/cared_profile/presentation/provider/cared_profile_service_provider.dart';
@@ -51,9 +53,7 @@ class _StadisticsVitalSignsScreenState
     await _fetchVitalSignsStats();
   }
 
-  // -------------------------------
-  //        DATE PICKER
-  // -------------------------------
+
   Future<void> _pickDate() async {
     final DateTime? picked = await showDatePicker(
       context: context,
