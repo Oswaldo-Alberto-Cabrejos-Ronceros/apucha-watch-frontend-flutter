@@ -1,298 +1,138 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:apucha_watch_movil/features/vital_signs_sumary/domain/vital_signs_stats.dart';
 
-class LineChartHeartRate extends StatefulWidget {
-  const LineChartHeartRate({super.key, required this.resolution});
-  final String resolution;
-  @override
-  State<LineChartHeartRate> createState() => _LineChartHeartRateState();
-}
+class LineChartHeartRate extends StatelessWidget {
+  final List<VitalSignPoint> dataPoints;
 
-class _LineChartHeartRateState extends State<LineChartHeartRate> {
+  const LineChartHeartRate({
+    super.key,
+    required this.dataPoints,
+  });
+
+  // --- Si no hay datos, devolvemos valores dummy como ejemplo ---
+  List<FlSpot> _getSpots() {
+    if (dataPoints.isEmpty) {
+      return const [
+        FlSpot(0, 70),
+        FlSpot(2, 72),
+        FlSpot(4, 68),
+        FlSpot(6, 75),
+        FlSpot(8, 73),
+        FlSpot(10, 78),
+        FlSpot(12, 74),
+      ];
+    }
+
+    final sortedPoints = [...dataPoints]..sort((a, b) => a.x.compareTo(b.x));
+
+    return sortedPoints
+        .map(
+          (point) => FlSpot(point.x, point.y*10),
+        )
+        .toList();
+  }
+
+  Widget _bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
+    return SideTitleWidget(
+      meta: meta,
+      child: Text(value.toInt().toString(), style: style),
+    );
+  }
+
+  Widget _leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
+    return Text(
+      value.toInt().toString(),
+      style: style,
+      textAlign: TextAlign.left,
+    );
+  }
+
+  LineChartData _getChartData(List<FlSpot> spots) {
+    return LineChartData(
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: true,
+        horizontalInterval: 5,
+        verticalInterval: 2,
+        getDrawingHorizontalLine: (value) {
+          return const FlLine(color: Colors.grey, strokeWidth: 0.5);
+        },
+        getDrawingVerticalLine: (value) {
+          return const FlLine(color: Colors.grey, strokeWidth: 0.5);
+        },
+      ),
+
+      titlesData: FlTitlesData(
+        show: true,
+        rightTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 2,
+            reservedSize: 30,
+            getTitlesWidget: _bottomTitleWidgets,
+          ),
+        ),
+
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 5,
+            reservedSize: 42,
+            getTitlesWidget: _leftTitleWidgets,
+          ),
+        ),
+      ),
+
+      borderData: FlBorderData(
+        show: true,
+        border: Border.all(color: const Color(0xff37434d)),
+      ),
+
+      minX: 0,
+      maxX: 12,
+      minY: 40,
+      maxY: 120,
+
+      lineBarsData: [
+        LineChartBarData(
+          spots: spots,
+          isCurved: true,
+          barWidth: 4,
+          isStrokeCapRound: true,
+          color: Colors.red,
+          dotData: const FlDotData(show: false),
+          belowBarData: BarAreaData(
+            show: true,
+            color: Colors.redAccent.withOpacity(0.3),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        AspectRatio(
-          aspectRatio: 1.70,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 18,
-              left: 12,
-              top: 24,
-              bottom: 12,
-            ),
-            child: LineChart(switch (widget.resolution) {
-              'TREINTA_SEG' => hourData(),
-              'UN_MIN' => twelveHoursData(),
-              'CINCO_MIN' => dayData(),
-              _ =>hourData()
-            }),
-          ),
-        ),
-      ],
-    );
-  }
+    final spots = _getSpots();
 
-  //para hora
-  Widget bottomTitleHourWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
-    String text = switch (value.toInt()) {
-      2 => '10 M',
-      4 => '20 M',
-      6 => '30 M',
-      8 => '40 M',
-      10 => '50 M',
-      _ => '',
-    };
-    return SideTitleWidget(
-      meta: meta,
-      child: Text(text, style: style),
-    );
-  }
-
-  //para doce horas
-  Widget bottomTitleTwelveHoursWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
-    String text = switch (value.toInt()) {
-      2 => '2 H',
-      4 => '4 H',
-      6 => '6 H',
-      8 => '8 H',
-      10 => '10 H',
-      _ => '',
-    };
-    return SideTitleWidget(
-      meta: meta,
-      child: Text(text, style: style),
-    );
-  }
-
-  //para dia
-  Widget bottomTitleDayWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
-    String text = switch (value.toInt()) {
-      2 => '4 H',
-      4 => '8 H',
-      6 => '12 H',
-      8 => '16 H',
-      10 => '20 H',
-      _ => '',
-    };
-    return SideTitleWidget(
-      meta: meta,
-      child: Text(text, style: style),
-    );
-  }
-
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(fontWeight: FontWeight.bold, fontSize: 15);
-    String text = switch (value.toInt()) {
-      1 => '60',
-      3 => '80',
-      5 => '100',
-      7 => '120',
-      _ => '',
-    };
-
-    return Text(text, style: style, textAlign: TextAlign.left);
-  }
-
-  LineChartData hourData() {
-    return LineChartData(
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-        horizontalInterval: 1,
-        verticalInterval: 1,
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(color: Colors.blueAccent, strokeWidth: 1);
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(color: Colors.blueAccent, strokeWidth: 1);
-        },
+    return AspectRatio(
+      aspectRatio: 1.70,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          right: 18,
+          left: 12,
+          top: 24,
+          bottom: 12,
+        ),
+        child: LineChart(_getChartData(spots)),
       ),
-      titlesData: FlTitlesData(
-        show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            interval: 1,
-            getTitlesWidget: bottomTitleHourWidgets,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            interval: 1,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-          ),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
-      minX: 0,
-      maxX: 12,
-      minY: 0,
-      maxY: 8,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-            FlSpot(12, 8),
-          ],
-          isCurved: true,
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(show: false),
-        ),
-      ],
-    );
-  }
-
-  LineChartData twelveHoursData() {
-    return LineChartData(
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-        horizontalInterval: 1,
-        verticalInterval: 1,
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(color: Colors.blueAccent, strokeWidth: 1);
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(color: Colors.blueAccent, strokeWidth: 1);
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            interval: 1,
-            getTitlesWidget: bottomTitleTwelveHoursWidgets,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            interval: 1,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-          ),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
-      minX: 0,
-      maxX: 12,
-      minY: 0,
-      maxY: 8,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-            FlSpot(12, 8),
-          ],
-          isCurved: true,
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(show: false),
-        ),
-      ],
-    );
-  }
-
-  LineChartData dayData() {
-    return LineChartData(
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-        horizontalInterval: 1,
-        verticalInterval: 1,
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(color: Colors.blueAccent, strokeWidth: 1);
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(color: Colors.blueAccent, strokeWidth: 1);
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            interval: 1,
-            getTitlesWidget: bottomTitleDayWidgets,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            interval: 1,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-          ),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
-      minX: 0,
-      maxX: 12,
-      minY: 0,
-      maxY: 8,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-            FlSpot(12, 8),
-          ],
-          isCurved: true,
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(show: false),
-        ),
-      ],
     );
   }
 }

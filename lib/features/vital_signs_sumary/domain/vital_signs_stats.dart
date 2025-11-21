@@ -2,10 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'vital_signs_stats.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class VitalSignsStats {
-  final List<HeartRatePoint> heartRate;
-  final List<OxygenationPoint> oxygenation;
+  final List<VitalSignPoint> heartRate;
+  final List<VitalSignPoint> oxygenation;
 
   VitalSignsStats({
     required this.heartRate,
@@ -19,33 +19,14 @@ class VitalSignsStats {
 }
 
 @JsonSerializable()
-class HeartRatePoint {
+class VitalSignPoint {
   final double x;
   final double y;
 
-  HeartRatePoint({
-    required this.x,
-    required this.y,
-  });
+  VitalSignPoint({required this.x, required this.y});
 
-  factory HeartRatePoint.fromJson(Map<String, dynamic> json) =>
-      _$HeartRatePointFromJson(json);
+  factory VitalSignPoint.fromJson(Map<String, dynamic> json) =>
+      _$VitalSignPointFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HeartRatePointToJson(this);
-}
-
-@JsonSerializable()
-class OxygenationPoint {
-  final double x;
-  final double y;
-
-  OxygenationPoint({
-    required this.x,
-    required this.y,
-  });
-
-  factory OxygenationPoint.fromJson(Map<String, dynamic> json) =>
-      _$OxygenationPointFromJson(json);
-
-  Map<String, dynamic> toJson() => _$OxygenationPointToJson(this);
+  Map<String, dynamic> toJson() => _$VitalSignPointToJson(this);
 }
