@@ -20,6 +20,7 @@ class _CreateSeniorCitizenScreenState
   //controllers
   final _nameController = TextEditingController();
   final _lastnameController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _birthdateController = TextEditingController();
   //error message
   String? _errorMessague;
@@ -54,6 +55,7 @@ class _CreateSeniorCitizenScreenState
           name: _nameController.text,
           lastname: _lastnameController.text,
           birthdate: isoDate,
+          phone: _phoneController.text,
           deviceId: deviceId,
         );
         //llamamos al servicio para
@@ -130,6 +132,10 @@ class _CreateSeniorCitizenScreenState
                 TextField(
                   controller: _nameController,
                   decoration: InputDecoration(labelText: 'Nombres'),
+                ),
+                TextField(
+                  controller: _phoneController,
+                  decoration: InputDecoration(labelText: 'Celular del reloj'),
                 ),
                 TextField(
                   controller: _lastnameController,
